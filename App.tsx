@@ -24,9 +24,11 @@ import { GoogleGenAI } from "@google/genai";
 
 export interface Question {
   id: string;
+  type: 'multiple-choice' | 'true-false' | 'cloze';
   text: string;
-  options: string[];
-  correctAnswer: number;
+  image?: string;
+  options?: string[];
+  correctAnswer: number | string | boolean;
   explanation: string;
   difficulty: 'beginner' | 'intermediate' | 'advanced';
 }
@@ -64,139 +66,103 @@ export const RANKS = [
 // DATA PLACEHOLDER START
 export const MISSIONS: Mission[] = [
   {
-    id: 'tecton-1',
-    title: 'Plattentektonik Basics',
-    description: 'Lerne die Grundlagen der Erdkrustenbewegung.',
-    icon: 'Globe',
+    id: 'earth-layers-dossier',
+    title: 'Der Schalenbau der Erde',
+    description: 'Dossier S. 6 & 7: Erforsche das Innere unseres Planeten.',
+    icon: 'Layers',
     statusRank: 'Laien-Geologe',
     questions: [
-      { id: 'q1', text: 'Wer war der Begründer der Theorie der Kontinentaldrift?', options: ['Albert Einstein', 'Alfred Wegener', 'Charles Darwin', 'Isaac Newton'], correctAnswer: 1, explanation: 'Alfred Wegener schlug 1912 die Theorie der Kontinentaldrift vor.', difficulty: 'beginner' },
-      { id: 'q2', text: 'Was versteht man unter der Lithosphäre?', options: ['Der flüssige Kern', 'Die oberste, feste Gesteinsschicht', 'Die Gasschicht der Erde', 'Die tiefste Erdschicht'], correctAnswer: 1, explanation: 'Die Lithosphäre umfasst die Erdkruste und den obersten Teil des Erdmantels.', difficulty: 'beginner' },
-      { id: 'q3', text: 'Wie viele große tektonische Platten gibt es etwa?', options: ['3', '7-8', '50', 'Über 100'], correctAnswer: 1, explanation: 'Es gibt etwa 7-8 Hauptplatten und viele kleinere Mikroplatten.', difficulty: 'intermediate' },
-      { id: 'q4', text: 'Was passiert an einer divergierenden Plattengrenze?', options: ['Platten driften auseinander', 'Platten stoßen zusammen', 'Platten gleiten aneinander vorbei', 'Nichts passiert'], correctAnswer: 0, explanation: 'Divergierend bedeutet "auseinanderstrebend". Hier entsteht oft neuer Meeresboden.', difficulty: 'intermediate' },
-      { id: 'q5', text: 'Welches Gebirge entstand durch die Kollision der Indischen mit der Eurasischen Platte?', options: ['Anden', 'Alpen', 'Himalaya', 'Appalachen'], correctAnswer: 2, explanation: 'Der Himalaya wächst auch heute noch durch diesen Prozess.', difficulty: 'advanced' },
-      { id: 'q6', text: 'Welche Rolle spielen die MOR (Mittelozeanischen Rücken)?', options: ['Meeresströmungen lenken', 'Neuen Meeresboden bilden', 'Erdmagnetfeld erzeugen', 'Vulkane löschen'], correctAnswer: 1, explanation: 'Dort steigt Magma auf und bildet neue ozeanische Kruste (Sea-Floor Spreading).', difficulty: 'advanced' },
-      { id: 'q7', text: 'Warum driften die Platten überhaupt?', options: ['Durch den Wind', 'Durch Gezeiten', 'Durch Mantelkonvektion', 'Durch Erdrotation'], correctAnswer: 2, explanation: 'Heißes Magma steigt auf, kühlt ab und sinkt wieder - wie in einem Kochtopf.', difficulty: 'advanced' },
-      { id: 'q8', text: 'Was ist eine Subduktionszone?', options: ['Wo Platten neu entstehen', 'Wo sich eine Platte unter die andere schiebt', 'Wo Gebirge abgetragen werden', 'Ein ruhiges Gebiet im Ozean'], correctAnswer: 1, explanation: 'Oft taucht schwerere ozeanische Kruste unter leichtere kontinentale Kruste.', difficulty: 'advanced' }
+      { id: 'el-1', type: 'multiple-choice', text: 'Welche Schicht der Erde ist laut Dossier flüssig und liegt in einer Tiefe von 2900 bis 5100 km?', options: ['Innerer Kern', 'Äusserer Kern', 'Unterer Erdmantel', 'Erdkruste'], correctAnswer: 1, explanation: 'Der äussere Kern ist flüssig (S. 7). Diese Eigenschaft ist entscheidend für das Erdmagnetfeld.', difficulty: 'intermediate' },
+      { id: 'el-tf-1', type: 'true-false', text: 'Der innere Kern der Erde ist trotz einer Temperatur von ca. 4300 °C fest.', correctAnswer: true, explanation: 'Richtig! Aufgrund des extrem hohen Drucks im Zentrum bleibt er fest (S. 7).', difficulty: 'beginner' },
+      { id: 'el-cloze-1', type: 'cloze', text: 'Die {blank} bildet die äusserste, feste Schale der Erde.', options: ['Lithosphäre', 'Erdkruste', 'Asthenosphäre'], correctAnswer: 'Erdkruste', explanation: 'Die Erdkruste ist die äusserste Schicht (S. 6).', difficulty: 'beginner' },
+      { id: 'el-4', type: 'multiple-choice', text: 'Welche Temperatur herrscht laut Dossier etwa an der Grenze zum unteren Erdmantel (ca. 700km Tiefe)?', options: ['100 °C', '1000 °C', '2900 °C', '6000 °C'], correctAnswer: 1, explanation: 'Im oberen Erdmantel herrschen Temperaturen um die 1000 °C (S. 7).', difficulty: 'intermediate' },
+      { id: 'el-tf-2', type: 'true-false', text: 'Die Erdkruste ist unter den Ozeanen dicker als unter den Kontinenten.', correctAnswer: false, explanation: 'Falsch! Die kontinentale Kruste ist mit bis zu 65 km viel dicker als die ozeanische (S. 7).', difficulty: 'intermediate' },
+      { id: 'el-cloze-2', type: 'cloze', text: 'Der innere Kern besteht zu über 75% aus {blank}.', options: ['Gold', 'Eisen', 'Magnesium'], correctAnswer: 'Eisen', explanation: 'Der Kern ist metallisch und besteht hauptsächlich aus Eisen (S. 7).', difficulty: 'intermediate' },
+      { id: 'el-7', type: 'multiple-choice', text: 'Was markiert die Moho-Diskontinuität?', options: ['Grenze zwischen Kern und Mantel', 'Grenze zwischen Kruste und Mantel', 'Die Erdoberfläche', 'Ein tiefer Ozeangraben'], correctAnswer: 1, explanation: 'Die Moho ist die Grenzfläche zwischen Kruste und oberem Erdmantel (S. 7).', difficulty: 'advanced' },
+      { id: 'el-8', type: 'multiple-choice', text: 'Was befindet sich direkt unter der Erdkruste?', options: ['Asthenosphäre', 'Äusserer Kern', 'Innerer Erdmantel', 'Ozean'], correctAnswer: 0, explanation: 'Die Asthenosphäre ist die fliessfähige Schicht direkt unter der Lithosphäre (S. 8).', difficulty: 'advanced' }
+    ]
+  },
+  {
+    id: 'drift-pangea',
+    title: 'Pangäa & Kontinentaldrift',
+    description: 'Dossier S. 5: Die Reise der Kontinente durch die Jahrmillionen.',
+    icon: 'Map',
+    statusRank: 'Urzeit-Navigator',
+    questions: [
+      { id: 'pa-1', type: 'multiple-choice', text: 'Vor wie vielen Jahren existierte der Superkontinent Pangäa laut Dossier?', options: ['2.000 Jahren', '135 Millionen Jahren', '250 Millionen Jahren', '10 Milliarden Jahren'], correctAnswer: 2, explanation: 'Vor 250 Mio. Jahren waren alle Landmassen vereint (S. 5).', difficulty: 'intermediate' },
+      { id: 'pa-cloze-1', type: 'cloze', text: 'Nach dem Zerfall von Pangäa bildeten sich zuerst die zwei Teilkontinente {blank} und Gondwana.', options: ['Laurasia', 'Tethys', 'Eurasien'], correctAnswer: 'Laurasia', explanation: 'Laurasia war der Nordteil, Gondwana der Südteil (S. 5).', difficulty: 'advanced' },
+      { id: 'pa-tf-1', type: 'true-false', text: 'Die Theorie von Alfred Wegener wurde damals sofort von allen akzeptiert.', correctAnswer: false, explanation: 'Falsch! Wegener konnte den Antrieb der Platten noch nicht erklären (S. 5).', difficulty: 'intermediate' },
+      { id: 'pa-4', type: 'multiple-choice', text: 'In welchem Meerestadium befand sich Indien vor 135 Millionen Jahren?', options: ['Fest verbunden mit Asien', 'Nahe der Antarktis', 'Bereits am Äquator', 'Im Atlantik'], correctAnswer: 1, explanation: 'Indien lag damals noch weit im Süden bei der Antarktis und Australien (S. 5).', difficulty: 'intermediate' },
+      { id: 'pa-5', type: 'multiple-choice', text: 'Was bedeutet Pangäa übersetzt?', options: ['Altes Land', 'Ganze Erde', 'Geteilte Welt', 'Heisse Erde'], correctAnswer: 1, explanation: 'Pan = alles, Gäa = Erde.', difficulty: 'beginner' },
+      { id: 'pa-tf-2', type: 'true-false', text: 'Indien wanderte nach Norden und kollidierte mit Eurasien, wodurch der Himalaya entstand.', correctAnswer: true, explanation: 'Richtig! Diese Kollision faltete das höchste Gebirge der Welt auf (S. 5/11).', difficulty: 'beginner' },
+      { id: 'pa-cloze-2', type: 'cloze', text: 'Das Meer zwischen Laurasia und Gondwana nannte man {blank}.', options: ['Atlantik', 'Tethys', 'Pazifik'], correctAnswer: 'Tethys', explanation: 'Die Tethys war das Urmeer zwischen den zerfallenden Kontinenten (S. 5).', difficulty: 'advanced' },
+      { id: 'pa-8', type: 'multiple-choice', text: 'Welches Land passte laut Wegener perfekt an die Westküste Afrikas?', options: ['Australien', 'Südamerika', 'Nordamerika', 'Europa'], correctAnswer: 1, explanation: 'Die Ähnlichkeit der Küstenlinien von Südamerika und Afrika war ein starkes Indiz.', difficulty: 'beginner' }
+    ]
+  },
+  {
+    id: 'convection-motor',
+    title: 'Der Motor der Erde',
+    description: 'Dossier S. 9: Warum bewegen sich die Platten eigentlich?',
+    icon: 'Zap',
+    statusRank: 'Thermodynamik-Profi',
+    questions: [
+      { id: 'co-cloze-1', type: 'cloze', text: 'Der Prozess, bei dem warmes Material aufsteigt und kühleres absinkt, wird als {blank} bezeichnet.', options: ['Mantelkonvektion', 'Subduktion', 'Kontinentaldrift'], correctAnswer: 'Mantelkonvektion', explanation: 'Dies ist der Antrieb der Platten (S. 9).', difficulty: 'intermediate' },
+      { id: 'co-tf-1', type: 'true-false', text: 'Die Lithosphärenplatten "schwimmen" auf der zähflüssigen Asthenosphäre.', correctAnswer: true, explanation: 'Richtig! Die Asthenosphäre ist verformbar (S. 9).', difficulty: 'intermediate' },
+      { id: 'co-3', type: 'multiple-choice', text: 'Welches Alltagsbeispiel wird im Dossier für Konvektion verwendet?', options: ['Ein Auto', 'Ein Kochtopf mit siedendem Wasser', 'Ein brennendes Haus', 'Ein fliegendes Flugzeug'], correctAnswer: 1, explanation: 'Das Wasser im Topf verhält sich ähnlich wie das Magma im Erdmantel (S. 9).', difficulty: 'beginner' },
+      { id: 'co-4', type: 'multiple-choice', text: 'Was passiert mit dem Gestein beim Absinken in die Tiefe?', options: ['Es wird kälter und fester', 'Es wird wärmer und schmilzt wieder auf', 'Es verschwindet einfach', 'Es wird zu Gold'], correctAnswer: 1, explanation: 'Abgetauchtes Material wird wieder aufgeheizt und wird Teil des Kreislaufs (S. 9).', difficulty: 'intermediate' },
+      { id: 'co-cloze-2', type: 'cloze', text: 'Die Platten werden am Mittelozeanischen Rücken durch {blank} auseinandergedrückt.', options: ['Slab Pull', 'Ridge Push', 'Vakuum'], correctAnswer: 'Ridge Push', explanation: 'Aufsteigendes Magma drückt die Platten zur Seite (S. 9).', difficulty: 'advanced' },
+      { id: 'co-tf-2', type: 'true-false', text: 'Die Strömungen im Erdmantel fließen extrem schnell, mehrere Meter pro Stunde.', correctAnswer: false, explanation: 'Falsch! Sie fließen extrem langsam, nur wenige Zentimeter pro Jahr (S. 9).', difficulty: 'intermediate' },
+      { id: 'co-7', type: 'multiple-choice', text: 'Was ist "Slab Pull"?', options: ['Magma-Druck', 'Die Zugkraft einer abtauchenden Platte', 'Der Wind über dem Ozean'], correctAnswer: 1, explanation: 'Die abtauchende, schwere Platte zieht den Rest der Platte hinter sich her (S. 9).', difficulty: 'advanced' }
+    ]
+  },
+  {
+    id: 'wilson-cycle',
+    title: 'Der Wilson-Zyklus',
+    description: 'Dossier S. 10 & 11: Geburt und Tod von Ozeanen.',
+    icon: 'Globe',
+    statusRank: 'Platten-Experte',
+    questions: [
+      { id: 'wc-1', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1544933863-482c638ce3ed?q=80&w=800&auto=format&fit=crop', text: 'Welches Stadium des Wilson-Zykus durchläuft das Rote Meer aktuell?', options: ['Grabenstadium (Rifting)', 'Junger Ozean', 'Reifer Ozean', 'Niedergangsstadium'], correctAnswer: 1, explanation: 'Das Rote Meer ist ein junger Ozean (S. 10).', difficulty: 'intermediate' },
+      { id: 'wc-cloze-1', type: 'cloze', text: 'Wenn zwei Kontinente kollidieren, verschwindet der {blank} dazwischen völlig.', options: ['Ozean', 'Grabenbruch', 'Vulkan'], correctAnswer: 'Ozean', explanation: 'Der Ozeanboden wird subduziert oder gefaltet (S. 11).', difficulty: 'advanced' },
+      { id: 'wc-tf-1', type: 'true-false', text: 'Der Atlantik ist ein Beispiel für einen reifen Ozean, der noch immer wächst.', correctAnswer: true, explanation: 'Richtig! In der Mitte des Atlantiks entsteht ständig neue Kruste (S. 10).', difficulty: 'beginner' },
+      { id: 'wc-4', type: 'multiple-choice', text: 'Was passiert im Stadium des Grabenbruchs (Rifting)?', options: ['Ein Meer trocknet aus', 'Ein Kontinent zerbricht in zwei Teile', 'Zwei Inseln verschmelzen', 'Ein Vulkan erlischt'], correctAnswer: 1, explanation: 'Beispiel: Ostafrikanischer Grabenbruch (S. 10).', difficulty: 'intermediate' },
+      { id: 'wc-5', type: 'multiple-choice', text: 'Was passiert mit dem Mittelmeer laut Zyklus?', options: ['Es wird immer größer', 'Es schließt sich langsam', 'Es friert ein', 'Es wird zum tiefsten Ozean'], correctAnswer: 1, explanation: 'Das Mittelmeer befindet sich im Stadium des Niedergangs (S. 11).', difficulty: 'intermediate' },
+      { id: 'wc-tf-2', type: 'true-false', text: 'Gebirge wie der Himalaya entstehen durch die Kollision zweier kontinentaler Platten.', correctAnswer: true, explanation: 'Richtig! Da beide Platten leicht sind, falten sie sich nach oben auf (S. 11).', difficulty: 'beginner' },
+      { id: 'wc-7', type: 'multiple-choice', text: 'Was ist Tethys-Schlamm?', options: ['Dreck am Strand', 'Ehemaliger Ozeanboden, der heute im Gebirge liegt', 'Ein spezieller Vulkantyp'], correctAnswer: 1, explanation: 'Man findet Reste des alten Ozeans Tethys hoch oben im Himalaya (S. 11).', difficulty: 'advanced' }
     ]
   },
   {
     id: 'nature-disasters',
-    title: 'Tektonik & Naturkatastrophen',
-    description: 'Wie Plattenbewegungen Gefahr bringen.',
+    title: 'Erdbeben & Naturgewalten',
+    description: 'Themen jenseits des Dossiers: Wenn die Erde bebt.',
     icon: 'Zap',
-    statusRank: 'Geologe',
+    statusRank: 'Geodynamik-Spezialist',
     questions: [
-      { id: 'nd-q1', text: 'Welche Katastrophe tritt oft an Plattengrenzen auf?', options: ['Hurrikan', 'Erdbeben', 'Dürre', 'Waldbrand'], correctAnswer: 1, explanation: 'Die Reibung zwischen Platten entlädt sich in ruckartigen Erdbeben.', difficulty: 'beginner' },
-      { id: 'nd-q2', text: 'Was ist das Epizentrum?', options: ['Der tiefste Punkt im Erdkern', 'Der Punkt an der Oberfläche direkt über dem Bebenherd', 'Der sicherste Ort bei Beben', 'Die Stärke eines Bebens'], correctAnswer: 1, explanation: 'Das Epizentrum liegt vertikal über dem Hypozentrum (Bebenherd).', difficulty: 'intermediate' },
-      { id: 'nd-q3', text: 'Was misst die Richterskala?', options: ['Tiefe des Lochs', 'Stärke (Magnitude) eines Bebens', 'Anzahl der Toten', 'Dauer des Regens'], correctAnswer: 1, explanation: 'Die Richterskala ist ein Maß für die im Fokus freigesetzte Energie.', difficulty: 'intermediate' },
-      { id: 'nd-q4', text: 'Was ist ein Tsunami?', options: ['Ein kleiner Fluss', 'Eine Riesenwelle durch Seebeben', 'Ein starker Wind aus Japan', 'Ein Vulkan im Meer'], correctAnswer: 1, explanation: 'Wenn der Meeresboden bei einem Beben vertikal versetzt wird, entstehen Tsunamis.', difficulty: 'beginner' },
-      { id: 'nd-q5', text: 'Welcher Ring ist berüchtigt für seine Vulkane und Erdbeben?', options: ['Der Eiserne Ring', 'Der Pazifische Feuerring', 'Der Goldene Kreis', 'Der Saturn-Ring'], correctAnswer: 1, explanation: 'Rund um den Pazifik liegen die meisten aktiven Subduktionszonen.', difficulty: 'intermediate' },
-      { id: 'nd-q6', text: 'Wie schützt man Gebäude vor Erdbeben?', options: ['Wände dünner machen', 'Gummilager/Dämpfer einbauen', 'Auf Sand bauen', 'Hochhäuser vermeiden'], correctAnswer: 1, explanation: 'Moderne Technik lässt Häuser mitschwingen oder entkoppelt sie vom Boden.', difficulty: 'advanced' },
-      { id: 'nd-q7', text: 'Was ist Pyroklastisches Material?', options: ['Altes Plastik', 'Glühende Asche- und Gaswolken', 'Gekühltes Lavagestein', 'Ein spezieller Boden'], correctAnswer: 1, explanation: 'Diese Lawinen sind extrem schnell und heiß und extrem gefährlich.', difficulty: 'advanced' },
-      { id: 'nd-q8', text: 'Was kündigt oft eine Eruption an?', options: ['Schnee im Sommer', 'Leichte Erdbeben und Gasaustritt', 'Dunkle Wolken am Himmel', 'Vogelgesang'], correctAnswer: 1, explanation: 'Aufsteigendes Magma drückt gegen Gestein und löst Beben aus.', difficulty: 'advanced' }
+      { id: 'sa-1', type: 'multiple-choice', text: 'Was ist der San-Andreas-Graben?', options: ['Ein Vulkan', 'Eine Transformstörung', 'Ein tiefer See', 'Ein Gebirge'], correctAnswer: 1, explanation: 'Hier gleiten Platten horizontal aneinander vorbei.', difficulty: 'beginner' },
+      { id: 'nd-tf-1', type: 'true-false', text: 'Erdbeben treten fast ausschließlich an den Rändern von tektonischen Platten auf.', correctAnswer: true, explanation: 'Richtig! Dort entstehen die größten Spannungen.', difficulty: 'beginner' },
+      { id: 'nd-q2', type: 'multiple-choice', text: 'Was ist das Epizentrum?', options: ['Der tiefste Punkt im Erdkern', 'Der Punkt an der Oberfläche direkt über dem Bebenherd', 'Der sicherste Ort bei Beben', 'Die Stärke eines Bebens'], correctAnswer: 1, explanation: 'Es liegt direkt über dem Fokus.', difficulty: 'intermediate' },
+      { id: 'nd-cloze-1', type: 'cloze', text: 'Die Stärke eines Erdbebens wird oft auf der {blank} gemessen.', options: ['Richterskala', 'Celsius-Skala', 'Newton-Skala'], correctAnswer: 'Richterskala', explanation: 'Sie gibt die freigesetzte Energie an.', difficulty: 'beginner' },
+      { id: 'nd-tf-2', type: 'true-false', text: 'Tsunamis entstehen meist durch Seebeben am Meeresboden.', correctAnswer: true, explanation: 'Richtig! Vertikale Verschiebungen des Bodens lösen die Welle aus.', difficulty: 'intermediate' },
+      { id: 'nd-6', type: 'multiple-choice', text: 'Was ist eine Transformstörung?', options: ['Platten driften auseinander', 'Platten schieben sich übereinander', 'Platten gleiten horizontal aneinander vorbei', 'Platten bleiben stehen'], correctAnswer: 2, explanation: 'Wie beim San-Andreas-Graben.', difficulty: 'intermediate' },
+      { id: 'nd-7', type: 'multiple-choice', text: 'Wie nennt man das Instrument, das Erdbebenwellen aufzeichnet?', options: ['Barometer', 'Seismograph', 'Thermometer', 'Hygrometer'], correctAnswer: 1, explanation: 'Ein Seismograph misst die Bodenerschütterungen.', difficulty: 'beginner' },
+      { id: 'nd-8', type: 'true-false', text: 'Man kann Erdbeben heute auf die Minute genau vorhersagen.', correctAnswer: false, explanation: 'Leider nein. Man kann Gebiete eingrenzen, aber keine genaue Zeit vorhersagen.', difficulty: 'intermediate' }
     ]
   },
   {
-    id: 'earth-layers',
-    title: 'Aufbau der Erde',
-    description: 'Die Schichten unter unseren Füßen.',
-    icon: 'Layers',
-    statusRank: 'Schicht-Spezialist',
-    questions: [
-      { id: 'el-1', text: 'Wie heißt die innerste Schicht der Erde?', options: ['Erdmantel', 'Erdkruste', 'Erdkern', 'Lufthülle'], correctAnswer: 2, explanation: 'Der Erdkern besteht hauptsächlich aus Eisen und Nickel.', difficulty: 'beginner' },
-      { id: 'el-2', text: 'In welchem Zustand ist der äußere Erdkern?', options: ['Fest', 'Flüssig', 'Gasförmig', 'Wie Eis'], correctAnswer: 1, explanation: 'Der äußere Kern ist flüssig, was für das Magnetfeld wichtig ist.', difficulty: 'intermediate' },
-      { id: 'el-3', text: 'Welche Schicht ist am dicksten?', options: ['Erdkruste', 'Erdmantel', 'Innerer Kern', 'Äußerer Kern'], correctAnswer: 1, explanation: 'Der Erdmantel nimmt das größte Volumen der Erde ein.', difficulty: 'intermediate' },
-      { id: 'el-4', text: 'Was ist die Moho-Diskontinuität?', options: ['Ein Berg', 'Grenze zwischen Kruste und Mantel', 'Ein Vulkantyp', 'Die Erdoberfläche'], correctAnswer: 1, explanation: 'Hier ändert sich die Geschwindigkeit der Erdbebenwellen schlagartig.', difficulty: 'advanced' },
-      { id: 'el-5', text: 'Aus was besteht der innere Kern hauptsächlich?', options: ['Gold', 'Wasserstoff', 'Eisen und Nickel', 'Stein'], correctAnswer: 2, explanation: 'Trotz hoher Hitze ist er wegen des enormen Drucks fest.', difficulty: 'intermediate' },
-      { id: 'el-6', text: 'Was ist die Asthenosphäre?', options: ['Fester Teil der Kruste', 'Zähflüssige Schicht im oberen Mantel', 'Die Luftschicht', 'Ein Sternbild'], correctAnswer: 1, explanation: 'Auf ihr "schwimmen" die Lithosphärenplatten.', difficulty: 'advanced' },
-      { id: 'el-7', text: 'Wie heiß ist es etwa im Erdkern?', options: ['100 °C', '1.000 °C', '6.000 °C', '1.000.000 °C'], correctAnswer: 2, explanation: 'Es ist dort so heiß wie auf der Oberfläche der Sonne.', difficulty: 'intermediate' },
-      { id: 'el-8', text: 'Wie tief ist das tiefste Bohrloch der Welt (Kola)?', options: ['100 m', '12 km', '100 km', '6400 km'], correctAnswer: 1, explanation: 'Es ist etwa 12,2 km tief - nur ein Kratzer an der Erdkruste!', difficulty: 'advanced' }
-    ]
-  },
-  {
-    id: 'pangea',
-    title: 'Pangäa',
-    description: 'Als alle Kontinente noch zusammen waren.',
-    icon: 'Map',
-    statusRank: 'Urzeit-Navigator',
-    questions: [
-      { id: 'pa-1', text: 'Was bedeutet der Name "Pangäa"?', options: ['Kleine Erde', 'Altes Land', 'Ganze Erde', 'Insel im Meer'], correctAnswer: 2, explanation: 'Pan = alles, Gäa = Erde.', difficulty: 'beginner' },
-      { id: 'pa-2', text: 'Vor wie vielen Jahren existierte Pangäa etwa?', options: ['2.000 Jahren', '250 Millionen Jahren', '10 Milliarden Jahren', 'Vorgestern'], correctAnswer: 1, explanation: 'In der Zeit des Perms und der Trias war Pangäa ein Superkontinent.', difficulty: 'intermediate' },
-      { id: 'pa-3', text: 'Welches Fossil half Wegener bei seiner Theorie?', options: ['T-Rex', 'Mesosaurus (Reptil)', 'Pinguin', 'Mammut'], correctAnswer: 1, explanation: 'Er fand die gleichen Fossilien in Südamerika und Afrika.', difficulty: 'intermediate' },
-      { id: 'pa-4', text: 'Wie hießen die zwei Teile, in die Pangäa zuerst zerbrach?', options: ['Nord- und Südpol', 'Laurasia und Gondwana', 'Atlantik und Pazifik', 'Europa und Asien'], correctAnswer: 1, explanation: 'Laurasia war der Nordteil, Gondwana der Südteil.', difficulty: 'advanced' },
-      { id: 'pa-5', text: 'Was war die Tethys?', options: ['Ein Kontinent', 'Ein Ozean', 'Eine Bergkette', 'Eine Pflanze'], correctAnswer: 1, explanation: 'Ein großer Meeresarm zwischen Laurasia und Gondwana.', difficulty: 'advanced' },
-      { id: 'pa-6', text: 'Welchen Beweis lieferten Gletscherspuren?', options: ['Wegener mochte Eis', 'Eis gab es nur am Nordpol', 'Gleiche Spuren in heute heißen Gebieten', 'Gletscher bewegen Platten'], correctAnswer: 2, explanation: 'Wegener fand Spuren in Indien und Afrika, was für eine Lage am Südpol sprach.', difficulty: 'advanced' },
-      { id: 'pa-7', text: 'Was bedeutet Kontinentaldrift heute für die Zukunft?', options: ['Kontinente bleiben stehen', 'Sie driften weiter (evtl. neue Superkontinente)', 'Sie sinken alle ab', 'Sie werden schneller'], correctAnswer: 1, explanation: 'In 250 Mio. Jahren gibt es vielleicht "Pangäa Proxima".', difficulty: 'intermediate' },
-      { id: 'pa-8', text: 'Warum wurde Wegeners Theorie damals abgelehnt?', options: ['Er war kein Geologe', 'Er konnte den Antrieb (Motor) nicht erklären', 'Niemand Verstand Deutsch', 'Die Karten waren falsch'], correctAnswer: 1, explanation: 'Man glaubte nicht, dass Kontinente wie Schiffe durch den Ozean pflügen können.', difficulty: 'advanced' }
-    ]
-  },
-  {
-    id: 'drift-san-andreas',
-    title: 'Plattendrift & San Andreas',
-    description: 'Wenn Platten aneinander vorbeigleiten.',
-    icon: 'Map',
-    statusRank: 'Transform-Experte',
-    questions: [
-      { id: 'sa-1', text: 'Was ist der San-Andreas-Graben?', options: ['Ein Vulkan', 'Eine Transformstörung', 'Ein tiefer See', 'Ein Gebirge'], correctAnswer: 1, explanation: 'Hier gleiten die Pazifische und die Nordamerikanische Platte horizontal aneinander vorbei.', difficulty: 'beginner' },
-      { id: 'sa-2', text: 'Welche Stadt liegt direkt an der San-Andreas-Verwerfung?', options: ['New York', 'San Francisco', 'Miami', 'Chicago'], correctAnswer: 1, explanation: 'San Francisco wurde 1906 durch ein Beben an dieser Verwerfung fast völlig zerstört.', difficulty: 'intermediate' },
-      { id: 'sa-3', text: 'Was passiert, wenn sich die Platten verhaken?', options: ['Sie bleiben für immer stehen', 'Spannung baut sich auf und entlädt sich ruckartig', 'Sie schmelzen', 'Ein neues Meer entsteht'], correctAnswer: 1, explanation: 'Der Ruck beim Lösen der Verhakung ist das eigentliche Erdbeben.', difficulty: 'intermediate' },
-      { id: 'sa-4', text: 'Wie schnell driften die Platten etwa pro Jahr?', options: ['Einige Meter', 'Zentimeter (wie Fingernägel)', 'Kilometer', 'Gar nicht'], correctAnswer: 1, explanation: 'Meist sind es 2-10 cm pro Jahr.', difficulty: 'beginner' },
-      { id: 'sa-5', text: 'Was ist eine Blattverschiebung?', options: ['Wenn Blätter im Wind wehen', 'Horizontales Aneinandervorbeigleiten von Krustenteilen', 'Vertikales Absinken', 'Faltung von Gestein'], correctAnswer: 1, explanation: 'Das ist der Fachbegriff für das, was am San-Andreas-Graben passiert.', difficulty: 'advanced' },
-      { id: 'sa-6', text: 'Was wird aus Kalifornien in Millionen von Jahren laut Theorie?', options: ['Es versinkt im Meer', 'Ein Teil wird zur Insel und wandert nach Norden', 'Es wird zur Wüste', 'Es verbindet sich mit Hawaii'], correctAnswer: 1, explanation: 'Los Angeles wandert langsam in Richtung San Francisco.', difficulty: 'intermediate' },
-      { id: 'sa-7', text: 'Warum gibt es am San-Andreas-Graben kaum Vulkane?', options: ['Es ist zu kalt', 'Dort wird keine Kruste aufgeschmolzen (keine Subduktion)', 'Der Boden ist zu hart', 'Die Feuerwehr ist zu schnell'], correctAnswer: 1, explanation: 'Vulkane entstehen meist durch Subduktion oder Rifting, nicht durch Transformstörungen.', difficulty: 'advanced' },
-      { id: 'sa-8', text: 'Welche Platten treffen am San-Andreas-Graben zusammen?', options: ['Afrikanische & Eurasische', 'Pazifische & Nordamerikanische', 'Nazca & Südamerikanische', 'Indische & Australische'], correctAnswer: 1, explanation: 'Diese zwei Giganten reiben sich an der US-Westküste.', difficulty: 'advanced' }
-    ]
-  },
-  {
-    id: 'convection',
-    title: 'Mantelkonvektion',
-    description: 'Der Motor der Erde.',
-    icon: 'Zap',
-    statusRank: 'Thermodynamik-Profi',
-    questions: [
-      { id: 'co-1', text: 'Was ist der Antrieb für die Plattenbewegung?', options: ['Mondanziehung', 'Mantelkonvektion', 'Meeresströmung', 'Erdmagnetfeld'], correctAnswer: 1, explanation: 'Wärmeströme im Inneren des Mantels bewegen die Platten.', difficulty: 'beginner' },
-      { id: 'co-2', text: 'Woher kommt die Wärme im Erdinneren?', options: ['Von der Sonne', 'Radioaktiver Zerfall & Restwärme der Entstehung', 'Vom Wind', 'Reibung der Luft'], correctAnswer: 1, explanation: 'Im Inneren zerfallen Atome und setzen dabei enorme Energie frei.', difficulty: 'intermediate' },
-      { id: 'co-3', text: 'Was passiert mit heißem Material im Mantel?', options: ['Es sinkt ab', 'Es steigt auf', 'Es bleibt stehen', 'Es wird fest'], correctAnswer: 1, explanation: 'Heißes Material hat eine geringere Dichte und steigt deshalb nach oben.', difficulty: 'beginner' },
-      { id: 'co-4', text: 'Was ist ein "Mantel-Plume"?', options: ['Ein Vogel', 'Eine pilzförmige Aufwärtsströmung von Magma', 'Ein tiefer Graben', 'Ein spezieller Stein'], correctAnswer: 1, explanation: 'Plumes können "Hotspots" an der Oberfläche erzeugen (wie Hawaii).', difficulty: 'intermediate' },
-      { id: 'co-5', text: 'Was ist "Slab Pull"?', options: ['Eine Tanzbewegung', 'Zugkraft der absinkenden Platte', 'Druck an den Rücken', 'Ein Vulkan-Ausbruch'], correctAnswer: 1, explanation: 'Die schwere, kalte Platte zieht beim Abtauchen den Rest hinter sich her.', difficulty: 'advanced' },
-      { id: 'co-6', text: 'Was ist "Ridge Push"?', options: ['Druck von unten am Rücken', 'Winddruck', 'Eisdruck', 'Magnetischer Druck'], correctAnswer: 0, explanation: 'Frisches Magma drückt die Platten an den Rücken auseinander.', difficulty: 'advanced' },
-      { id: 'co-7', text: 'In welcher Schicht findet Konvektion statt?', options: ['Kruste', 'Mantel', 'Innerer Kern', 'Atmosphäre'], correctAnswer: 1, explanation: 'Der Mantel ist zwar fest, verhält sich aber über Millionen Jahre wie eine sehr zähe Flüssigkeit.', difficulty: 'intermediate' },
-      { id: 'co-8', text: 'Wie verhält sich das Gestein im Mantel bei Konvektion?', options: ['Es bricht sofort', 'Es fließt plastisch/viskos', 'Es verdampft', 'Es gefriert'], correctAnswer: 1, explanation: 'Unter hohem Druck und Hitze wird Gestein verformbar (Duktilitat).', difficulty: 'advanced' }
-    ]
-  },
-  {
-    id: 'ocean-cycle',
-    title: 'Auf & Ab eines Ozeans',
-    description: 'Der Wilson-Zyklus: Geburt und Tod von Meeren.',
-    icon: 'Globe',
-    statusRank: 'Ozeanograph',
-    questions: [
-      { id: 'oc-1', text: 'Wie nennt man den Zyklus der Ozeanöffnung und -schließung?', options: ['Wegener-Zyklus', 'Wilson-Zyklus', 'Darwin-Zyklus', 'Einstein-Ring'], correctAnswer: 1, explanation: 'J. Tuzo Wilson beschrieb diesen wiederkehrenden Prozess.', difficulty: 'beginner' },
-      { id: 'oc-2', text: 'Was ist das erste Stadium eines neuen Ozeans?', options: ['Ein Gebirge', 'Ein Grabenbruch (Rifting)', 'Ein tiefes Becken', 'Eine Insel'], correctAnswer: 1, explanation: 'Wie beim Ostafrikanischen Graben bricht das Land zuerst auf.', difficulty: 'intermediate' },
-      { id: 'oc-3', text: 'Was passiert im "Roten-Meer-Stadium"?', options: ['Der Ozean trocknet aus', 'Ein schmales Meer mit neuer ozeanischer Kruste entsteht', 'Zwei Kontinente stoßen zusammen', 'Alles gefriert'], correctAnswer: 1, explanation: 'Das Rote Meer ist ein junger, schmaler Ozean.', difficulty: 'intermediate' },
-      { id: 'oc-4', text: 'Welches Stadium folgt nach einem weiten Ozean (wie der Atlantik)?', options: ['Stillstand', 'Subduktion beginnt an den Rändern', 'Austrocknung', 'Verdampfung'], correctAnswer: 1, explanation: 'Wenn der Ränder instabil werden, beginnt die Platte abzutauchen.', difficulty: 'advanced' },
-      { id: 'oc-5', text: 'Was passiert am Ende des Wilson-Zyklus?', options: ['Die Erde explodiert', 'Kontinent-Kontinent-Kollision (Gebirgsbildung)', 'Ein neuer Mond entsteht', 'Nichts'], correctAnswer: 1, explanation: 'Wenn der Ozean ganz geschlossen ist, falten sich Gebirge wie die Alpen auf.', difficulty: 'intermediate' },
-      { id: 'oc-6', text: 'Welcher Ozean wird derzeit kleiner?', options: ['Atlantik', 'Pazifik', 'Indischer Ozean', 'Keiner'], correctAnswer: 1, explanation: 'Der Pazifik verkleinert sich durch die vielen Subduktionszonen am Rand.', difficulty: 'advanced' },
-      { id: 'oc-7', text: 'Welcher Ozean wird derzeit größer?', options: ['Atlantik', 'Mittelmeer', 'Totes Meer', 'Kaspisches Meer'], correctAnswer: 0, explanation: 'Der Atlantik wächst am Mittelozeanischen Rücken um ca. 2 cm pro Jahr.', difficulty: 'intermediate' },
-      { id: 'oc-8', text: 'Was ist ein "Aulakogen"?', options: ['Ein fossiler Fisch', 'Ein gescheiterter Arm eines Grabenbruchs', 'Ein Vulkan-Typ', 'Ein Gestein'], correctAnswer: 1, explanation: 'Oft bricht ein Kontinent dreistrahlig auf, aber nur zwei Arme werden zum Ozean.', difficulty: 'advanced' }
-    ]
-  },
-  {
-    id: 'volcanism-plus',
-    title: 'Vulkanismus & Magma',
-    description: 'Feuerspuckende Berge verstehen.',
-    icon: 'Zap',
+    id: 'vulkanismus-dossier',
+    title: 'Vulkanismus',
+    description: 'Dossier S. 12: Feuer aus der Tiefe.',
+    icon: 'Flame',
     statusRank: 'Vulkanologe',
     questions: [
-      { id: 'v-1', text: 'Wie nennt man Gesteinsschmelze unter der Erde?', options: ['Lava', 'Magma', 'Asche', 'Schwerspat'], correctAnswer: 1, explanation: 'Sobald Magma an die Oberfläche tritt, nennt man es Lava.', difficulty: 'beginner' },
-      { id: 'v-2', text: 'Welcher Vulkantyp ist flach und hat dünnflüssige Lava?', options: ['Schichtvulkan', 'Schildvulkan', 'Schlackenkegel', 'Kratersee'], correctAnswer: 1, explanation: 'Schildvulkane (wie auf Hawaii) entstehen durch dünnflüssige, weit fließende Lava.', difficulty: 'intermediate' },
-      { id: 'v-3', text: 'Welcher Vulkantyp ist steil und oft explosiv?', options: ['Schildvulkan', 'Schichtvulkan (Stratovulkan)', 'Maare', 'Spaltenvulkan'], correctAnswer: 1, explanation: 'Schichtvulkane haben zähflüssige Lava und Gaseinschlüsse, was zu Explosionen führt.', difficulty: 'intermediate' },
-      { id: 'v-4', text: 'Was ist ein "Hotspot"?', options: ['Ein WLAN-Punkt', 'Ortsfeste Magmaquelle tief im Mantel', 'Ein Waldbrand', 'Ein sehr heißer Sommertag'], correctAnswer: 1, explanation: 'Hotspots bilden Inselketten, wenn die Platten über sie hinwegziehen.', difficulty: 'intermediate' },
-      { id: 'v-5', text: 'Was ist eine Caldera?', options: ['Ein kleiner Vulkan', 'Ein eingestürzter Vulkankrater', 'Eine heiße Quelle', 'Ein Gesteinsbrocken'], correctAnswer: 1, explanation: 'Wenn die Magmakammer leer ist, bricht der Gipfel oft in sich zusammen.', difficulty: 'advanced' },
-      { id: 'v-6', text: 'Was ist basaltische Lava?', options: ['Sauer und zähflüssig', 'Basisch, heiß und dünnflüssig', 'Kalt und fest', 'Gasförmig'], correctAnswer: 1, explanation: 'Basaltlava kommt oft aus dem Mantel und ist sehr heiß (über 1000 °C).', difficulty: 'advanced' },
-      { id: 'v-7', text: 'Warum gibt es Vulkane über Subduktionszonen?', options: ['Die Sonne scheint dort mehr', 'Wasser aus der abtauchenden Platte senkt den Schmelzpunkt im Mantel', 'Druck ist dort niedriger', 'Die Erde ist dort dünner'], correctAnswer: 1, explanation: 'Das mitgeführte Wasser wirkt als "Flußmittel" und lässt Gestein schmelzen.', difficulty: 'advanced' },
-      { id: 'v-8', text: 'Was ist der VEI?', options: ['Vulkan-Energie-Index', 'Vulkan-Explosivitäts-Index', 'Video-Echtzeit-Info', 'Viel-Eis-Index'], correctAnswer: 1, explanation: 'Er misst die Stärke eines Ausbruchs von 0 bis 8.', difficulty: 'intermediate' }
+      { id: 'v-1', type: 'multiple-choice', text: 'Wie nennt man die Gesteinsschmelze im Erdinneren?', options: ['Lava', 'Magma', 'Asche', 'Bimsstein'], correctAnswer: 1, explanation: 'Innen Magma, aussen Lava (S. 12).', difficulty: 'beginner' },
+      { id: 'v-tf-1', type: 'true-false', text: 'Ein pyroklastischer Strom besteht aus heisser Asche und Gasen.', correctAnswer: true, explanation: 'Diese Ströme sind extrem schnell und gefährlich (S. 12).', difficulty: 'intermediate' },
+      { id: 'v-cloze-1', type: 'cloze', text: 'Vulkanausbrüche über {blank} sind besonders explosiv.', options: ['Subduktionszonen', 'Hotspots', 'Grabenbrüchen'], correctAnswer: 'Subduktionszonen', explanation: 'Eingeschlepptes Wasser macht das Magma dort explosiv (S. 12).', difficulty: 'advanced' },
+      { id: 'v-4', type: 'multiple-choice', text: 'Was ist ein Schlot?', options: ['Der Eingang eines Hauses', 'Der Weg des Magmas zur Oberfläche', 'Ein ausgekühlter Stein', 'Ein Luftloch'], correctAnswer: 1, explanation: 'Der Schlot verbindet Magmakammer und Krater (S. 12).', difficulty: 'beginner' },
+      { id: 'v-5', type: 'multiple-choice', text: 'Was sind vulkanische Bomben?', options: ['Echte Sprengstoffpakete', 'Ausgeschleuderte Gesteinsbrocken', 'Gasblasen im Magma', 'Ein spezieller Vulkantyp'], correctAnswer: 1, explanation: 'Das sind im Flug erstarrte Lavabrocken (S. 12).', difficulty: 'intermediate' },
+      { id: 'v-tf-2', type: 'true-false', text: 'Ein Schichtvulkan wächst durch abwechselnde Schichten aus Lava und Asche.', correctAnswer: true, explanation: 'Richtig! Daher kommt auch sein Name (Stratovulkan).', difficulty: 'intermediate' },
+      { id: 'v-cloze-2', type: 'cloze', text: 'Das Loch an der Spitze eines Vulkans nennt man {blank}.', options: ['Krater', 'Höhle', 'Becken'], correctAnswer: 'Krater', explanation: 'Dort tritt die Lava meist aus (S. 12).', difficulty: 'beginner' },
+      { id: 'v-8', type: 'multiple-choice', text: 'Was ist Lavenregen?', options: ['Wasser, das aus Vulkanen kommt', 'Kleine Lavafetzen, die bei Explosionen herabregnen (Lapilli)', 'Ein gewöhnlicher Regenschauer'], correctAnswer: 1, explanation: 'In der Grafik auf S. 12 sieht man "Lapilli" - kleine Gesteinchen, die vom Himmel fallen.', difficulty: 'intermediate' }
     ]
   }
 ]; 
@@ -519,33 +485,76 @@ function MissionMap({ stats, onSelectMission, onOpenBot }: { stats: UserStats, o
 
 function QuizView({ mission, questionIdx, onAnswer, onBack }: { mission: Mission, questionIdx: number, onAnswer: (correct: boolean) => void, onBack: () => void }) {
   const question = mission.questions[questionIdx];
-  const [selected, setSelected] = useState<number | null>(null);
+  const [selected, setSelected] = useState<number | string | boolean | null>(null);
   const [showResult, setShowResult] = useState(false);
 
-  const handleChoice = (idx: number) => {
+  const checkAnswer = (val: number | string | boolean) => {
     if (showResult) return;
-    setSelected(idx);
+    setSelected(val);
     setShowResult(true);
+    
+    // Evaluate correctness
+    const isCorrect = val === question.correctAnswer;
+    
     setTimeout(() => {
-      onAnswer(idx === question.correctAnswer);
+      onAnswer(isCorrect);
       setSelected(null);
       setShowResult(false);
-    }, 2000);
+    }, 2500);
+  };
+
+  const renderClozeText = (text: string) => {
+    const parts = text.split('{blank}');
+    return (
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-4">
+        {parts.map((part, i) => (
+          <span key={i} className="flex items-center gap-2">
+            {part}
+            {i < parts.length - 1 && (
+              <span className={`inline-block min-w-24 px-4 py-2 border-b-2 border-dashed ${showResult ? 'border-transparent' : 'border-[#FF4E00]'} transition-all`}>
+                {showResult ? (
+                  <span className={selected === question.correctAnswer ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}>
+                    {question.correctAnswer as string}
+                  </span>
+                ) : (
+                  <span className="text-stone-600 italic">...</span>
+                )}
+              </span>
+            )}
+          </span>
+        ))}
+      </div>
+    );
   };
 
   return (
     <motion.div 
       initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
-      className="p-6 md:p-12 max-w-3xl mx-auto flex flex-col justify-center min-h-screen"
+      className="p-6 md:p-12 max-w-4xl mx-auto flex flex-col justify-center min-h-screen"
     >
       <button onClick={onBack} className="flex items-center gap-2 text-stone-500 hover:text-white transition-colors mb-12 uppercase text-xs font-bold tracking-widest">
         <ArrowLeft size={16} /> Abbruch
       </button>
 
       <div className="mb-4 flex justify-between items-end">
-        <span className="text-[#FF4E00] font-bold uppercase text-xs tracking-widest">Mission: {mission.title}</span>
-        <span className="text-stone-500 text-xs font-bold">{questionIdx + 1} / {mission.questions.length}</span>
+        <div className="flex flex-col gap-1">
+          <span className="text-[#FF4E00] font-bold uppercase text-[10px] tracking-widest">Mission: {mission.title}</span>
+          <div className="flex items-center gap-2">
+            <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${
+              question.difficulty === 'beginner' ? 'border-emerald-500/50 text-emerald-500' :
+              question.difficulty === 'intermediate' ? 'border-yellow-500/50 text-yellow-500' :
+              'border-red-500/50 text-red-500'
+            }`}>
+              {question.difficulty}
+            </span>
+            <span className="px-2 py-0.5 bg-stone-800 rounded text-[10px] font-bold uppercase text-stone-400">
+              {question.type === 'multiple-choice' ? 'Auswahl' : question.type === 'true-false' ? 'Richtig/Falsch' : 'Lückentext'}
+            </span>
+          </div>
+        </div>
+        <span className="text-stone-500 text-xs font-bold">Frage {questionIdx + 1} von {mission.questions.length}</span>
       </div>
+      
       <div className="w-full h-1 bg-stone-900 mb-12 rounded-full overflow-hidden">
         <motion.div 
           initial={{ width: 0 }}
@@ -554,28 +563,95 @@ function QuizView({ mission, questionIdx, onAnswer, onBack }: { mission: Mission
         />
       </div>
 
-      <h2 className="text-2xl md:text-4xl font-bold mb-12 leading-tight">{question.text}</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="space-y-8">
+          {question.image && (
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="rounded-3xl overflow-hidden aspect-video border border-stone-800 bg-stone-900 shadow-2xl"
+            >
+              <img src={question.image} alt="Task" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            </motion.div>
+          )}
 
-      <div className="grid grid-cols-1 gap-4">
-        {question.options.map((opt, i) => (
-          <button
-            key={i}
-            disabled={showResult}
-            onClick={() => handleChoice(i)}
-            className={`p-6 rounded-2xl text-left border-2 transition-all flex items-center justify-between font-medium ${
-              showResult
-                ? i === question.correctAnswer
-                  ? 'border-green-500 bg-green-500/10 text-green-500'
-                  : i === selected
-                  ? 'border-red-500 bg-red-500/10 text-red-500'
-                  : 'border-stone-800 opacity-50'
-                : 'border-stone-800 hover:border-[#FF4E00] hover:bg-[#FF4E00]/5'
-            }`}
-          >
-            {opt}
-            {showResult && i === question.correctAnswer && <Trophy size={18} />}
-          </button>
-        ))}
+          <div className="text-2xl md:text-3xl font-bold leading-tight text-white">
+            {question.type === 'cloze' ? renderClozeText(question.text) : question.text}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 self-center">
+          {/* Multiple Choice Render */}
+          {question.type === 'multiple-choice' && question.options?.map((opt, i) => (
+            <button
+              key={i}
+              disabled={showResult}
+              onClick={() => checkAnswer(i)}
+              className={`p-6 rounded-2xl text-left border-2 transition-all flex items-center justify-between font-medium ${
+                showResult
+                  ? i === question.correctAnswer
+                    ? 'border-green-500 bg-green-500/10 text-green-500'
+                    : i === selected
+                    ? 'border-red-500 bg-red-500/10 text-red-500'
+                    : 'border-stone-800 opacity-50'
+                  : 'border-stone-800 hover:border-[#FF4E00] hover:bg-[#FF4E00]/5'
+              }`}
+            >
+              {opt}
+              {showResult && i === question.correctAnswer && <Trophy size={18} />}
+            </button>
+          ))}
+
+          {/* True / False Render */}
+          {question.type === 'true-false' && (
+            <div className="flex gap-4">
+              {[true, false].map((val) => (
+                <button
+                  key={val ? 'true' : 'false'}
+                  disabled={showResult}
+                  onClick={() => checkAnswer(val)}
+                  className={`flex-1 p-8 rounded-3xl text-center border-2 transition-all font-bold uppercase tracking-widest ${
+                    showResult
+                      ? val === question.correctAnswer
+                        ? 'border-green-500 bg-green-500/10 text-green-500'
+                        : val === selected
+                        ? 'border-red-500 bg-red-500/10 text-red-500'
+                        : 'border-stone-800 opacity-50'
+                      : 'border-stone-800 hover:border-[#FF4E00] hover:bg-[#FF4E00]/5'
+                  }`}
+                >
+                  {val ? 'Richtig' : 'Falsch'}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Cloze Options Render */}
+          {question.type === 'cloze' && (
+            <div className="grid grid-cols-1 gap-4">
+              <p className="text-[10px] uppercase font-bold text-stone-500 mb-2">Was passt in die Lücke?</p>
+              {question.options?.map((opt, i) => (
+                <button
+                  key={i}
+                  disabled={showResult}
+                  onClick={() => checkAnswer(opt)}
+                  className={`p-6 rounded-2xl text-left border-2 transition-all flex items-center justify-between font-medium ${
+                    showResult
+                      ? opt === question.correctAnswer
+                        ? 'border-green-500 bg-green-500/10 text-green-500'
+                        : opt === selected
+                        ? 'border-red-500 bg-red-500/10 text-red-500'
+                        : 'border-stone-800 opacity-50'
+                      : 'border-stone-800 hover:border-[#FF4E00] hover:bg-[#FF4E00]/5'
+                  }`}
+                >
+                  {opt}
+                  {showResult && opt === question.correctAnswer && <Trophy size={18} />}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <AnimatePresence>
@@ -583,9 +659,15 @@ function QuizView({ mission, questionIdx, onAnswer, onBack }: { mission: Mission
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-8 p-6 rounded-2xl bg-stone-900/50 border border-stone-800"
+            className="mt-12 p-8 rounded-3xl bg-[#1C1B19] border border-stone-800 shadow-xl"
           >
-            <p className="text-sm italic text-stone-400">{question.explanation}</p>
+            <div className="flex items-center gap-4 mb-4">
+              <div className={`p-2 rounded-full ${selected === question.correctAnswer ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'}`}>
+                <HelpCircle size={20} />
+              </div>
+              <h4 className="font-bold uppercase tracking-widest text-xs">Erklärung</h4>
+            </div>
+            <p className="text-stone-300 leading-relaxed">{question.explanation}</p>
           </motion.div>
         )}
       </AnimatePresence>
