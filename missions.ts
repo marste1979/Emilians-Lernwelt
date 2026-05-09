@@ -1,4 +1,4 @@
-import { Mission } from '../types';
+import { Mission } from './types';
 
 export const MISSIONS: Mission[] = [
   {

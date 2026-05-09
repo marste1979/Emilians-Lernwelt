@@ -20,7 +20,7 @@ import {
   MessageCircle,
   Award
 } from 'lucide-react';
-import { MISSIONS } from './data/missions';
+import { MISSIONS } from './missions';
 import { Mission, Question, UserStats, RANKS } from './types';
 import { GoogleGenAI } from "@google/genai";
 
