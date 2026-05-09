@@ -80,7 +80,9 @@ export const MISSIONS: Mission[] = [
       { id: 'el-tf-2', type: 'true-false', text: 'Die Erdkruste ist unter den Ozeanen dicker als unter den Kontinenten.', correctAnswer: false, explanation: 'Falsch! Die kontinentale Kruste ist mit bis zu 65 km viel dicker als die ozeanische (S. 7).', difficulty: 'intermediate' },
       { id: 'el-cloze-2', type: 'cloze', text: 'Der innerer Kern besteht zu über 75% aus {blank}.', options: ['Gold', 'Eisen', 'Magnesium'], correctAnswer: 'Eisen', explanation: 'Der Kern ist metallisch und besteht hauptsächlich aus Eisen (S. 7).', difficulty: 'intermediate' },
       { id: 'el-7', type: 'multiple-choice', text: 'Was markiert die Moho-Diskontinuität?', options: ['Grenze zwischen Kern und Mantel', 'Grenze zwischen Kruste und Mantel', 'Die Erdoberfläche', 'Ein tiefer Ozeangraben'], correctAnswer: 1, explanation: 'Die Moho ist die Grenzfläche zwischen Kruste und oberem Erdmantel (S. 7).', difficulty: 'advanced' },
-      { id: 'el-8', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop', text: 'Was befindet sich direkt unter der Erdkruste?', options: ['Asthenosphäre', 'Äusserer Kern', 'Innerer Erdmantel', 'Ozean'], correctAnswer: 0, explanation: 'Die Asthenosphäre ist die fliessfähige Schicht direkt unter der Lithosphäre (S. 8).', difficulty: 'advanced' }
+      { id: 'el-8', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop', text: 'Was befindet sich direkt unter der Erdkruste?', options: ['Asthenosphäre', 'Äusserer Kern', 'Innerer Erdmantel', 'Ozean'], correctAnswer: 0, explanation: 'Die Asthenosphäre ist die fliessfähige Schicht direkt unter der Lithosphäre (S. 8).', difficulty: 'advanced' },
+      { id: 'el-9', type: 'multiple-choice', text: 'Welches Metall sorgt im Erdkern primär für das Erdmagnetfeld?', options: ['Kupfer', 'Gold', 'Eisen', 'Aluminium'], correctAnswer: 2, explanation: 'Eisen ist der Hauptbestandteil des Kerns und erzeugt das Magnetfeld.', difficulty: 'intermediate' },
+      { id: 'el-10', type: 'true-false', text: 'Die Lithosphäre umfasst sowohl die Kruste als auch den obersten Teil des Erdmantels.', correctAnswer: true, explanation: 'Richtig! Sie ist die starre äussere Hülle der Erde.', difficulty: 'advanced' }
     ]
   },
   {
@@ -97,7 +99,9 @@ export const MISSIONS: Mission[] = [
       { id: 'pa-5', type: 'multiple-choice', text: 'Was bedeutet Pangäa übersetzt?', options: ['Altes Land', 'Ganze Erde', 'Geteilte Welt', 'Heisse Erde'], correctAnswer: 1, explanation: 'Pan = alles, Gäa = Erde.', difficulty: 'beginner' },
       { id: 'pa-tf-2', type: 'true-false', text: 'Indien wanderte nach Norden und kollidierte mit Eurasien, wodurch der Himalaya entstand.', correctAnswer: true, explanation: 'Richtig! Diese Kollision faltete das höchste Gebirge der Welt auf (S. 5/11).', difficulty: 'beginner' },
       { id: 'pa-cloze-2', type: 'cloze', text: 'Das Meer zwischen Laurasia und Gondwana nannte man {blank}.', options: ['Atlantik', 'Tethys', 'Pazifik'], correctAnswer: 'Tethys', explanation: 'Die Tethys war das Urmeer zwischen den zerfallenden Kontinenten (S. 5).', difficulty: 'advanced' },
-      { id: 'pa-8', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?q=80&w=800&auto=format&fit=crop', text: 'Welches Land passte laut Wegener perfekt an die Westküste Afrikas?', options: ['Australien', 'Südamerika', 'Nordamerika', 'Europa'], correctAnswer: 1, explanation: 'Die Ähnlichkeit der Konturen von Südamerika und Afrika war ein starkes Indiz.', difficulty: 'beginner' }
+      { id: 'pa-8', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?q=80&w=800&auto=format&fit=crop', text: 'Welches Land passte laut Wegener perfekt an die Westküste Afrikas?', options: ['Australien', 'Südamerika', 'Nordamerika', 'Europa'], correctAnswer: 1, explanation: 'Die Ähnlichkeit der Konturen von Südamerika und Afrika war ein starkes Indiz.', difficulty: 'beginner' },
+      { id: 'pa-9', type: 'multiple-choice', text: 'Wie schnell bewegen sich die Kontinentalplatten etwa pro Jahr?', options: ['Mehrere Meter', 'Wenige Millimeter bis Zentimeter', 'Kilometerweit', 'Gar nicht mehr'], correctAnswer: 1, explanation: 'Sie bewegen sich etwa so schnell, wie Fingernägel wachsen (S. 5).', difficulty: 'intermediate' },
+      { id: 'pa-10', type: 'cloze', text: 'Der Wissenschaftler {blank} erkannte als Erster die Puzzleteile der Kontinente.', options: ['Alfred Wegener', 'Charles Darwin', 'Albert Einstein'], correctAnswer: 'Alfred Wegener', explanation: 'Alfred Wegener veröffentlichte 1915 seine Theorie der Kontinentaldrift.', difficulty: 'beginner' }
     ]
   },
   {
@@ -114,7 +118,9 @@ export const MISSIONS: Mission[] = [
       { id: 'co-cloze-2', type: 'cloze', text: 'Die Platten werden am Mittelozeanischen Rücken durch {blank} auseinandergedrückt.', options: ['Slab Pull', 'Ridge Push', 'Vakuum'], correctAnswer: 'Ridge Push', explanation: 'Aufsteigendes Magma drückt die Platten zur Seite (S. 9).', difficulty: 'advanced' },
       { id: 'co-tf-2', type: 'true-false', text: 'Die Strömungen im Erdmantel fließen extrem schnell, mehrere Meter pro Stunde.', correctAnswer: false, explanation: 'Falsch! Sie fließen extrem langsam, nur wenige Zentimeter pro Jahr (S. 9).', difficulty: 'intermediate' },
       { id: 'co-7', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1544933863-482c638ce3ed?q=80&w=800&auto=format&fit=crop', text: 'Was ist "Slab Pull"?', options: ['Magma-Druck', 'Die Zugkraft einer abtauchenden Platte', 'Der Wind über dem Ozean'], correctAnswer: 1, explanation: 'Die abtauchende, schwere Platte zieht den Rest der Platte hinter sich her (S. 9).', difficulty: 'advanced' },
-      { id: 'co-8', type: 'multiple-choice', text: 'Welche Schicht verhält sich wie eine zähe Flüssigkeit und erlaubt Konvektion?', options: ['Erdkruste', 'Asthenosphäre', 'Innerer Kern', 'Hydrosphäre'], correctAnswer: 1, explanation: 'Die Asthenosphäre ist plastisch verformbar.', difficulty: 'intermediate' }
+      { id: 'co-8', type: 'multiple-choice', text: 'Welche Schicht verhält sich wie eine zähe Flüssigkeit und erlaubt Konvektion?', options: ['Erdkruste', 'Asthenosphäre', 'Innerer Kern', 'Hydrosphäre'], correctAnswer: 1, explanation: 'Die Asthenosphäre ist plastisch verformbar.', difficulty: 'intermediate' },
+      { id: 'co-9', type: 'multiple-choice', text: 'Woher stammt die meiste Wärme im Erdinneren?', options: ['Von der Sonne', 'Radioaktiver Zerfall & Restwärme der Entstehung', 'Vom Reiben der Platten', 'Aus dem Weltall'], correctAnswer: 1, explanation: 'Radioaktive Zerfallsprozesse halten das Innere warm (S. 9).', difficulty: 'advanced' },
+      { id: 'co-10', type: 'true-false', text: 'Aufsteigende Wärmeströme im Mantel nennt man Poren.', correctAnswer: false, explanation: 'Falsch! Man nennt sie oft Konvektionsströme oder Plumes.', difficulty: 'intermediate' }
     ]
   },
   {
@@ -131,7 +137,9 @@ export const MISSIONS: Mission[] = [
       { id: 'wc-5', type: 'multiple-choice', text: 'Was passiert mit dem Mittelmeer laut Zyklus?', options: ['Es wird immer größer', 'Es schließt sich langsam', 'Es friert ein', 'Es wird zum tiefsten Ozean'], correctAnswer: 1, explanation: 'Das Mittelmeer befindet sich im Stadium des Niedergangs (S. 11).', difficulty: 'intermediate' },
       { id: 'wc-tf-2', type: 'true-false', text: 'Gebirge wie der Himalaya entstehen durch die Kollision zweier kontinentaler Platten.', correctAnswer: true, explanation: 'Richtig! Da beide Platten leicht sind, falten sie sich nach oben auf (S. 11).', difficulty: 'beginner' },
       { id: 'wc-7', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop', text: 'Was ist Tethys-Schlamm?', options: ['Dreck am Strand', 'Ehemaliger Ozeanboden, der heute im Gebirge liegt', 'Ein spezieller Vulkantyp'], correctAnswer: 1, explanation: 'Man findet Reste des alten Ozeans Tethys hoch oben im Himalaya (S. 11).', difficulty: 'advanced' },
-      { id: 'wc-8', type: 'multiple-choice', text: 'Wer entwickelte das Modell des Wilson-Zyklus?', options: ['Alfred Wegener', 'Charles Richter', 'John Tuzo Wilson', 'Isaac Newton'], correctAnswer: 2, explanation: 'Der kanadische Geophysiker J. Tuzo Wilson beschrieb die zyklische Entstehung von Ozeanen.', difficulty: 'intermediate' }
+      { id: 'wc-8', type: 'multiple-choice', text: 'Wer entwickelte das Modell des Wilson-Zyklus?', options: ['Alfred Wegener', 'Charles Richter', 'John Tuzo Wilson', 'Isaac Newton'], correctAnswer: 2, explanation: 'Der kanadische Geophysiker J. Tuzo Wilson beschrieb die zyklische Entstehung von Ozeanen.', difficulty: 'intermediate' },
+      { id: 'wc-9', type: 'multiple-choice', text: 'In welchem Stadium befindet sich der Pazifik laut Lehrbuch?', options: ['Ruhestadium', 'Niedergangsstadium', 'Stadium des Rifting'], correctAnswer: 1, explanation: 'Der Pazifik wird durch Subduktion an den Rändern langsam kleiner (S. 11).', difficulty: 'advanced' },
+      { id: 'wc-10', type: 'true-false', text: 'Ein Wilson-Zyklus dauert typischerweise mehrere hundert Millionen Jahre.', correctAnswer: true, explanation: 'Richtig! Es ist ein extrem langsamer, gigantischer Kreislauf.', difficulty: 'intermediate' }
     ]
   },
   {
@@ -148,7 +156,9 @@ export const MISSIONS: Mission[] = [
       { id: 'nd-tf-2', type: 'true-false', text: 'Tsunamis entstehen meist durch Seebeben am Meeresboden.', correctAnswer: true, explanation: 'Richtig! Vertikale Verschiebungen des Bodens lösen die Welle aus.', difficulty: 'intermediate' },
       { id: 'nd-6', type: 'multiple-choice', text: 'Was ist eine Transformstörung?', options: ['Platten driften auseinander', 'Platten schieben sich übereinander', 'Platten gleiten horizontal aneinander vorbei', 'Platten bleiben stehen'], correctAnswer: 2, explanation: 'Wie beim San-Andreas-Graben.', difficulty: 'intermediate' },
       { id: 'nd-7', type: 'multiple-choice', text: 'Wie nennt man das Instrument, das Erdbebenwellen aufzeichnet?', options: ['Barometer', 'Seismograph', 'Thermometer', 'Hygrometer'], correctAnswer: 1, explanation: 'Ein Seismograph misst die Bodenerschütterungen.', difficulty: 'beginner' },
-      { id: 'nd-8', type: 'true-false', text: 'Man kann Erdbeben heute auf die Minute genau vorhersagen.', correctAnswer: false, explanation: 'Leider nein. Man kann Gebiete eingrenzen, aber keine genaue Zeit vorhersagen.', difficulty: 'intermediate' }
+      { id: 'nd-8', type: 'true-false', text: 'Man kann Erdbeben heute auf die Minute genau vorhersagen.', correctAnswer: false, explanation: 'Leider nein. Man kann Gebiete eingrenzen, aber keine genaue Zeit vorhersagen.', difficulty: 'intermediate' },
+      { id: 'nd-9', type: 'multiple-choice', text: 'Welche Wellen erreichen ein Messgerät zuerst?', options: ['S-Wellen', 'P-Wellen', 'L-Wellen'], correctAnswer: 1, explanation: 'P-Wellen (Primärwellen) sind die schnellsten Erdbebenwellen.', difficulty: 'advanced' },
+      { id: 'nd-10', type: 'true-false', text: 'Der Pazifische Feuerring ist die Zone mit der höchsten vulkanischen und seismischen Aktivität.', correctAnswer: true, explanation: 'Richtig! Dort befinden sich die meisten aktiven Vulkane der Erde.', difficulty: 'beginner' }
     ]
   },
   {
@@ -165,7 +175,9 @@ export const MISSIONS: Mission[] = [
       { id: 'v-5', type: 'multiple-choice', text: 'Was sind vulkanische Bomben?', options: ['Echte Sprengstoffpakete', 'Ausgeschleuderte Gesteinsbrocken', 'Gasblasen im Magma', 'Ein spezieller Vulkantyp'], correctAnswer: 1, explanation: 'Das sind im Flug erstarrte Lavabrocken (S. 12).', difficulty: 'intermediate' },
       { id: 'v-tf-2', type: 'true-false', text: 'Ein Schichtvulkan wächst durch abwechselnde Schichten aus Lava und Asche.', correctAnswer: true, explanation: 'Richtig! Daher kommt auch sein Name (Stratovulkan).', difficulty: 'intermediate' },
       { id: 'v-cloze-2', type: 'cloze', text: 'Das Loch an der Spitze eines Vulkans nennt man {blank}.', options: ['Krater', 'Höhle', 'Becken'], correctAnswer: 'Krater', explanation: 'Dort tritt die Lava meist aus (S. 12).', difficulty: 'beginner' },
-      { id: 'v-8', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1541410965313-d53b3c16ef17?q=80&w=800&auto=format&fit=crop', text: 'Was ist Lavenregen?', options: ['Wasser, das aus Vulkanen kommt', 'Kleine Lavafetzen, die bei Explosionen herabregnen (Lapilli)', 'Ein gewöhnlicher Regenschauer'], correctAnswer: 1, explanation: 'In der Grafik auf S. 12 sieht man "Lapilli" - kleine Gesteinchen, die vom Himmel fallen.', difficulty: 'intermediate' }
+      { id: 'v-8', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1541410965313-d53b3c16ef17?q=80&w=800&auto=format&fit=crop', text: 'Was ist Lavenregen?', options: ['Wasser, das aus Vulkanen kommt', 'Kleine Lavafetzen, die bei Explosionen herabregnen (Lapilli)', 'Ein gewöhnlicher Regenschauer'], correctAnswer: 1, explanation: 'In der Grafik auf S. 12 sieht man "Lapilli" - kleine Gesteinchen, die vom Himmel fallen.', difficulty: 'intermediate' },
+      { id: 'v-9', type: 'multiple-choice', text: 'Was ist ein Hotspot?', options: ['Ein besonders warmer Strand', 'Eine ortsfeste Magmaupwallung weit weg von Plattengrenzen', 'Ein Vulkan, der gerade ausbricht', 'Ein WLAN-Zugang'], correctAnswer: 1, explanation: 'Beispiel: Hawaii entstand durch einen Hotspot (S. 12).', difficulty: 'intermediate' },
+      { id: 'v-10', type: 'true-false', text: 'Der Vesuv zerstörte im Jahr 79 n. Chr. die Stadt Pompeji.', correctAnswer: true, explanation: 'Richtig! Dies ist einer der berühmtesten Vulkanausbrüche der Geschichte.', difficulty: 'beginner' }
     ]
   }
 ]; 
@@ -223,7 +235,11 @@ export default function App() {
   };
 
   const startMission = (mission: Mission) => {
-    setActiveMission(mission);
+    // Select a random subset of 6 questions from the pool for variety
+    const shuffled = [...mission.questions].sort(() => Math.random() - 0.5);
+    const selectedQuestions = shuffled.slice(0, 6);
+    
+    setActiveMission({ ...mission, questions: selectedQuestions });
     setCurrentQuestionIdx(0);
     setCurrentMissionPoints(0);
     setCurrentView('quiz');
@@ -233,23 +249,21 @@ export default function App() {
     if (isCorrect) {
       updatePoints(100);
       setCurrentMissionPoints(prev => prev + 100);
-      if (currentQuestionIdx + 1 < (activeMission?.questions.length || 0)) {
-        setCurrentQuestionIdx(prev => prev + 1);
-      } else {
-        // Mission Complete
+    } else {
+      updatePoints(-20);
+    }
+    
+    if (currentQuestionIdx + 1 < (activeMission?.questions.length || 0)) {
+      setCurrentQuestionIdx(prev => prev + 1);
+    } else {
+      // Mission Complete
+      if (isCorrect || !isCorrect) { // Logic safety
         setUserStats(prev => ({
           ...prev,
           completedMissions: Array.from(new Set([...prev.completedMissions, activeMission!.id]))
         }));
-        setCurrentView('diploma');
       }
-    } else {
-      updatePoints(-20);
-      if (currentQuestionIdx + 1 < (activeMission?.questions.length || 0)) {
-        setCurrentQuestionIdx(prev => prev + 1);
-      } else {
-        setCurrentView('diploma');
-      }
+      setCurrentView('diploma');
     }
   };
 
@@ -494,10 +508,27 @@ function QuizView({ mission, questionIdx, onAnswer, onBack }: { mission: Mission
 
   const speak = (text: string, onEnd?: () => void) => {
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
+    
+    // Clean text: remove page references like (S. 7) or (S. 5/11)
+    const cleanedText = text.replace(/\(S\.\s?\d+[^)]*\)/g, '').trim();
+    
+    const utterance = new SpeechSynthesisUtterance(cleanedText);
     utterance.lang = 'de-DE';
-    utterance.rate = 0.82; // Slower and clearer
-    utterance.pitch = 1.0;
+    
+    // Voice selection logic
+    const voices = window.speechSynthesis.getVoices();
+    // Prefer Google or premium voices if available, or just a different German voice
+    const germanVoices = voices.filter(v => v.lang.startsWith('de'));
+    
+    // Try to find a voice that isn't the system default to give it a "new" feel
+    const preferredVoice = germanVoices.find(v => v.name.includes('Google') || v.name.includes('Premium')) || germanVoices[1] || germanVoices[0];
+    
+    if (preferredVoice) {
+      utterance.voice = preferredVoice;
+    }
+
+    utterance.rate = 0.88; // Slightly adjusted for better flow
+    utterance.pitch = 1.02; // Very slight adjustment for clarity
 
     utterance.onstart = () => setIsSpeaking(true);
     utterance.onend = () => {
@@ -519,23 +550,14 @@ function QuizView({ mission, questionIdx, onAnswer, onBack }: { mission: Mission
     
     const isCorrect = val === question.correctAnswer;
     
-    if (!isCorrect) {
-      // Speak and wait for completion before proceeding
-      speak(question.explanation, () => {
-        setTimeout(() => {
-          onAnswer(false);
-          setSelected(null);
-          setShowResult(false);
-        }, 1500); // Small pause after speaking ends
-      });
-    } else {
-      // Proceed directly for correct answers
+    // Always speak explanation for both correct and incorrect answers
+    speak(question.explanation, () => {
       setTimeout(() => {
-        onAnswer(true);
+        onAnswer(isCorrect);
         setSelected(null);
         setShowResult(false);
-      }, 2500);
-    }
+      }, 1500); // Small pause after GeoBot finished speaking
+    });
   };
 
   const renderClozeText = (text: string) => {
