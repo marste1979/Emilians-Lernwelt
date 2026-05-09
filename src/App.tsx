@@ -110,8 +110,22 @@ export default function App() {
     if (!query.trim()) return;
     setBotChat(prev => [...prev, { role: 'user', text: query }]);
     setIsBotLoading(true);
+
+    const apiKey = process.env.GEMINI_API_KEY;
+    
+    if (!apiKey || apiKey === 'MY_GEMINI_API_KEY') {
+      setTimeout(() => {
+        setBotChat(prev => [...prev, { 
+          role: 'bot', 
+          text: 'Hinweis: Damit ich (GeoBot) antworten kann, muss ein gültiger API-Key in der App hinterlegt sein. Da dies eine Web-Demo für GitHub ist, wurde der Key aus Sicherheitsgründen entfernt.' 
+        }]);
+        setIsBotLoading(false);
+      }, 1000);
+      return;
+    }
+
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+      const ai = new GoogleGenAI({ apiKey });
       const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
         contents: `Du bist GeoBot, ein freundlicher KI-Assistent für Schüler im Alter von 14 Jahren in Emilians Lernwelt. 
