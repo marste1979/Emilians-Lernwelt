@@ -492,16 +492,22 @@ function QuizView({ mission, questionIdx, onAnswer, onBack }: { mission: Mission
   const [showResult, setShowResult] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
-  const speak = (text: string) => {
+  const speak = (text: string, onEnd?: () => void) => {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'de-DE';
-    utterance.rate = 1.0;
-    utterance.pitch = 1.1;
+    utterance.rate = 0.82; // Slower and clearer
+    utterance.pitch = 1.0;
 
     utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
+    utterance.onend = () => {
+      setIsSpeaking(false);
+      if (onEnd) onEnd();
+    };
+    utterance.onerror = () => {
+      setIsSpeaking(false);
+      if (onEnd) onEnd();
+    };
     
     window.speechSynthesis.speak(utterance);
   };
@@ -514,15 +520,22 @@ function QuizView({ mission, questionIdx, onAnswer, onBack }: { mission: Mission
     const isCorrect = val === question.correctAnswer;
     
     if (!isCorrect) {
-      speak(question.explanation);
+      // Speak and wait for completion before proceeding
+      speak(question.explanation, () => {
+        setTimeout(() => {
+          onAnswer(false);
+          setSelected(null);
+          setShowResult(false);
+        }, 1500); // Small pause after speaking ends
+      });
+    } else {
+      // Proceed directly for correct answers
+      setTimeout(() => {
+        onAnswer(true);
+        setSelected(null);
+        setShowResult(false);
+      }, 2500);
     }
-    
-    setTimeout(() => {
-      onAnswer(isCorrect);
-      setSelected(null);
-      setShowResult(false);
-      window.speechSynthesis.cancel();
-    }, 4500);
   };
 
   const renderClozeText = (text: string) => {
