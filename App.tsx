@@ -18,7 +18,8 @@ import {
   ArrowLeft,
   X,
   MessageCircle,
-  Award
+  Award,
+  Bot
 } from 'lucide-react';
 import { GoogleGenAI } from "@google/genai";
 
@@ -72,14 +73,14 @@ export const MISSIONS: Mission[] = [
     icon: 'Layers',
     statusRank: 'Laien-Geologe',
     questions: [
-      { id: 'el-1', type: 'multiple-choice', text: 'Welche Schicht der Erde ist laut Dossier flüssig und liegt in einer Tiefe von 2900 bis 5100 km?', options: ['Innerer Kern', 'Äusserer Kern', 'Unterer Erdmantel', 'Erdkruste'], correctAnswer: 1, explanation: 'Der äussere Kern ist flüssig (S. 7). Diese Eigenschaft ist entscheidend für das Erdmagnetfeld.', difficulty: 'intermediate' },
-      { id: 'el-tf-1', type: 'true-false', text: 'Der innere Kern der Erde ist trotz einer Temperatur von ca. 4300 °C fest.', correctAnswer: true, explanation: 'Richtig! Aufgrund des extrem hohen Drucks im Zentrum bleibt er fest (S. 7).', difficulty: 'beginner' },
+      { id: 'el-1', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?q=80&w=800&auto=format&fit=crop', text: 'Welche Schicht der Erde ist laut Dossier flüssig und liegt in einer Tiefe von 2900 bis 5100 km?', options: ['Innerer Kern', 'Äusserer Kern', 'Unterer Erdmantel', 'Erdkruste'], correctAnswer: 1, explanation: 'Der äussere Kern ist flüssig (S. 7). Diese Eigenschaft ist entscheidend für das Erdmagnetfeld.', difficulty: 'intermediate' },
+      { id: 'el-tf-1', type: 'true-false', text: 'Der innerer Kern der Erde ist trotz einer Temperatur von ca. 4300 °C fest.', correctAnswer: true, explanation: 'Richtig! Aufgrund des extrem hohen Drucks im Zentrum bleibt er fest (S. 7).', difficulty: 'beginner' },
       { id: 'el-cloze-1', type: 'cloze', text: 'Die {blank} bildet die äusserste, feste Schale der Erde.', options: ['Lithosphäre', 'Erdkruste', 'Asthenosphäre'], correctAnswer: 'Erdkruste', explanation: 'Die Erdkruste ist die äusserste Schicht (S. 6).', difficulty: 'beginner' },
-      { id: 'el-4', type: 'multiple-choice', text: 'Welche Temperatur herrscht laut Dossier etwa an der Grenze zum unteren Erdmantel (ca. 700km Tiefe)?', options: ['100 °C', '1000 °C', '2900 °C', '6000 °C'], correctAnswer: 1, explanation: 'Im oberen Erdmantel herrschen Temperaturen um die 1000 °C (S. 7).', difficulty: 'intermediate' },
+      { id: 'el-4', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1544933863-482c638ce3ed?q=80&w=800&auto=format&fit=crop', text: 'Welche Temperatur herrscht laut Dossier etwa an der Grenze zum unteren Erdmantel (ca. 700km Tiefe)?', options: ['100 °C', '1000 °C', '2900 °C', '6000 °C'], correctAnswer: 1, explanation: 'Im oberen Erdmantel herrschen Temperaturen um die 1000 °C (S. 7).', difficulty: 'intermediate' },
       { id: 'el-tf-2', type: 'true-false', text: 'Die Erdkruste ist unter den Ozeanen dicker als unter den Kontinenten.', correctAnswer: false, explanation: 'Falsch! Die kontinentale Kruste ist mit bis zu 65 km viel dicker als die ozeanische (S. 7).', difficulty: 'intermediate' },
-      { id: 'el-cloze-2', type: 'cloze', text: 'Der innere Kern besteht zu über 75% aus {blank}.', options: ['Gold', 'Eisen', 'Magnesium'], correctAnswer: 'Eisen', explanation: 'Der Kern ist metallisch und besteht hauptsächlich aus Eisen (S. 7).', difficulty: 'intermediate' },
+      { id: 'el-cloze-2', type: 'cloze', text: 'Der innerer Kern besteht zu über 75% aus {blank}.', options: ['Gold', 'Eisen', 'Magnesium'], correctAnswer: 'Eisen', explanation: 'Der Kern ist metallisch und besteht hauptsächlich aus Eisen (S. 7).', difficulty: 'intermediate' },
       { id: 'el-7', type: 'multiple-choice', text: 'Was markiert die Moho-Diskontinuität?', options: ['Grenze zwischen Kern und Mantel', 'Grenze zwischen Kruste und Mantel', 'Die Erdoberfläche', 'Ein tiefer Ozeangraben'], correctAnswer: 1, explanation: 'Die Moho ist die Grenzfläche zwischen Kruste und oberem Erdmantel (S. 7).', difficulty: 'advanced' },
-      { id: 'el-8', type: 'multiple-choice', text: 'Was befindet sich direkt unter der Erdkruste?', options: ['Asthenosphäre', 'Äusserer Kern', 'Innerer Erdmantel', 'Ozean'], correctAnswer: 0, explanation: 'Die Asthenosphäre ist die fliessfähige Schicht direkt unter der Lithosphäre (S. 8).', difficulty: 'advanced' }
+      { id: 'el-8', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop', text: 'Was befindet sich direkt unter der Erdkruste?', options: ['Asthenosphäre', 'Äusserer Kern', 'Innerer Erdmantel', 'Ozean'], correctAnswer: 0, explanation: 'Die Asthenosphäre ist die fliessfähige Schicht direkt unter der Lithosphäre (S. 8).', difficulty: 'advanced' }
     ]
   },
   {
@@ -89,14 +90,14 @@ export const MISSIONS: Mission[] = [
     icon: 'Map',
     statusRank: 'Urzeit-Navigator',
     questions: [
-      { id: 'pa-1', type: 'multiple-choice', text: 'Vor wie vielen Jahren existierte der Superkontinent Pangäa laut Dossier?', options: ['2.000 Jahren', '135 Millionen Jahren', '250 Millionen Jahren', '10 Milliarden Jahren'], correctAnswer: 2, explanation: 'Vor 250 Mio. Jahren waren alle Landmassen vereint (S. 5).', difficulty: 'intermediate' },
+      { id: 'pa-1', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1541410965313-d53b3c16ef17?q=80&w=800&auto=format&fit=crop', text: 'Vor wie vielen Jahren existierte der Superkontinent Pangäa laut Dossier?', options: ['2.000 Jahren', '135 Millionen Jahren', '250 Millionen Jahren', '10 Milliarden Jahren'], correctAnswer: 2, explanation: 'Vor 250 Mio. Jahren waren alle Landmassen vereint (S. 5).', difficulty: 'intermediate' },
       { id: 'pa-cloze-1', type: 'cloze', text: 'Nach dem Zerfall von Pangäa bildeten sich zuerst die zwei Teilkontinente {blank} und Gondwana.', options: ['Laurasia', 'Tethys', 'Eurasien'], correctAnswer: 'Laurasia', explanation: 'Laurasia war der Nordteil, Gondwana der Südteil (S. 5).', difficulty: 'advanced' },
       { id: 'pa-tf-1', type: 'true-false', text: 'Die Theorie von Alfred Wegener wurde damals sofort von allen akzeptiert.', correctAnswer: false, explanation: 'Falsch! Wegener konnte den Antrieb der Platten noch nicht erklären (S. 5).', difficulty: 'intermediate' },
-      { id: 'pa-4', type: 'multiple-choice', text: 'In welchem Meerestadium befand sich Indien vor 135 Millionen Jahren?', options: ['Fest verbunden mit Asien', 'Nahe der Antarktis', 'Bereits am Äquator', 'Im Atlantik'], correctAnswer: 1, explanation: 'Indien lag damals noch weit im Süden bei der Antarktis und Australien (S. 5).', difficulty: 'intermediate' },
+      { id: 'pa-4', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1542332213-31f87348057f?q=80&w=800&auto=format&fit=crop', text: 'In welchem Meerestadium befand sich Indien vor 135 Millionen Jahren?', options: ['Fest verbunden mit Asien', 'Nahe der Antarktis', 'Bereits am Äquator', 'Im Atlantik'], correctAnswer: 1, explanation: 'Indien lag damals noch weit im Süden bei der Antarktis und Australien (S. 5).', difficulty: 'intermediate' },
       { id: 'pa-5', type: 'multiple-choice', text: 'Was bedeutet Pangäa übersetzt?', options: ['Altes Land', 'Ganze Erde', 'Geteilte Welt', 'Heisse Erde'], correctAnswer: 1, explanation: 'Pan = alles, Gäa = Erde.', difficulty: 'beginner' },
       { id: 'pa-tf-2', type: 'true-false', text: 'Indien wanderte nach Norden und kollidierte mit Eurasien, wodurch der Himalaya entstand.', correctAnswer: true, explanation: 'Richtig! Diese Kollision faltete das höchste Gebirge der Welt auf (S. 5/11).', difficulty: 'beginner' },
       { id: 'pa-cloze-2', type: 'cloze', text: 'Das Meer zwischen Laurasia und Gondwana nannte man {blank}.', options: ['Atlantik', 'Tethys', 'Pazifik'], correctAnswer: 'Tethys', explanation: 'Die Tethys war das Urmeer zwischen den zerfallenden Kontinenten (S. 5).', difficulty: 'advanced' },
-      { id: 'pa-8', type: 'multiple-choice', text: 'Welches Land passte laut Wegener perfekt an die Westküste Afrikas?', options: ['Australien', 'Südamerika', 'Nordamerika', 'Europa'], correctAnswer: 1, explanation: 'Die Ähnlichkeit der Küstenlinien von Südamerika und Afrika war ein starkes Indiz.', difficulty: 'beginner' }
+      { id: 'pa-8', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?q=80&w=800&auto=format&fit=crop', text: 'Welches Land passte laut Wegener perfekt an die Westküste Afrikas?', options: ['Australien', 'Südamerika', 'Nordamerika', 'Europa'], correctAnswer: 1, explanation: 'Die Ähnlichkeit der Konturen von Südamerika und Afrika war ein starkes Indiz.', difficulty: 'beginner' }
     ]
   },
   {
@@ -108,11 +109,12 @@ export const MISSIONS: Mission[] = [
     questions: [
       { id: 'co-cloze-1', type: 'cloze', text: 'Der Prozess, bei dem warmes Material aufsteigt und kühleres absinkt, wird als {blank} bezeichnet.', options: ['Mantelkonvektion', 'Subduktion', 'Kontinentaldrift'], correctAnswer: 'Mantelkonvektion', explanation: 'Dies ist der Antrieb der Platten (S. 9).', difficulty: 'intermediate' },
       { id: 'co-tf-1', type: 'true-false', text: 'Die Lithosphärenplatten "schwimmen" auf der zähflüssigen Asthenosphäre.', correctAnswer: true, explanation: 'Richtig! Die Asthenosphäre ist verformbar (S. 9).', difficulty: 'intermediate' },
-      { id: 'co-3', type: 'multiple-choice', text: 'Welches Alltagsbeispiel wird im Dossier für Konvektion verwendet?', options: ['Ein Auto', 'Ein Kochtopf mit siedendem Wasser', 'Ein brennendes Haus', 'Ein fliegendes Flugzeug'], correctAnswer: 1, explanation: 'Das Wasser im Topf verhält sich ähnlich wie das Magma im Erdmantel (S. 9).', difficulty: 'beginner' },
+      { id: 'co-3', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1526401281623-279b498f10f4?q=80&w=800&auto=format&fit=crop', text: 'Welches Alltagsbeispiel wird im Dossier für Konvektion verwendet?', options: ['Ein Auto', 'Ein Kochtopf mit siedendem Wasser', 'Ein brennendes Haus', 'Ein fliegendes Flugzeug'], correctAnswer: 1, explanation: 'Das Wasser im Topf verhält sich ähnlich wie das Magma im Erdmantel (S. 9).', difficulty: 'beginner' },
       { id: 'co-4', type: 'multiple-choice', text: 'Was passiert mit dem Gestein beim Absinken in die Tiefe?', options: ['Es wird kälter und fester', 'Es wird wärmer und schmilzt wieder auf', 'Es verschwindet einfach', 'Es wird zu Gold'], correctAnswer: 1, explanation: 'Abgetauchtes Material wird wieder aufgeheizt und wird Teil des Kreislaufs (S. 9).', difficulty: 'intermediate' },
       { id: 'co-cloze-2', type: 'cloze', text: 'Die Platten werden am Mittelozeanischen Rücken durch {blank} auseinandergedrückt.', options: ['Slab Pull', 'Ridge Push', 'Vakuum'], correctAnswer: 'Ridge Push', explanation: 'Aufsteigendes Magma drückt die Platten zur Seite (S. 9).', difficulty: 'advanced' },
       { id: 'co-tf-2', type: 'true-false', text: 'Die Strömungen im Erdmantel fließen extrem schnell, mehrere Meter pro Stunde.', correctAnswer: false, explanation: 'Falsch! Sie fließen extrem langsam, nur wenige Zentimeter pro Jahr (S. 9).', difficulty: 'intermediate' },
-      { id: 'co-7', type: 'multiple-choice', text: 'Was ist "Slab Pull"?', options: ['Magma-Druck', 'Die Zugkraft einer abtauchenden Platte', 'Der Wind über dem Ozean'], correctAnswer: 1, explanation: 'Die abtauchende, schwere Platte zieht den Rest der Platte hinter sich her (S. 9).', difficulty: 'advanced' }
+      { id: 'co-7', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1544933863-482c638ce3ed?q=80&w=800&auto=format&fit=crop', text: 'Was ist "Slab Pull"?', options: ['Magma-Druck', 'Die Zugkraft einer abtauchenden Platte', 'Der Wind über dem Ozean'], correctAnswer: 1, explanation: 'Die abtauchende, schwere Platte zieht den Rest der Platte hinter sich her (S. 9).', difficulty: 'advanced' },
+      { id: 'co-8', type: 'multiple-choice', text: 'Welche Schicht verhält sich wie eine zähe Flüssigkeit und erlaubt Konvektion?', options: ['Erdkruste', 'Asthenosphäre', 'Innerer Kern', 'Hydrosphäre'], correctAnswer: 1, explanation: 'Die Asthenosphäre ist plastisch verformbar.', difficulty: 'intermediate' }
     ]
   },
   {
@@ -128,7 +130,8 @@ export const MISSIONS: Mission[] = [
       { id: 'wc-4', type: 'multiple-choice', text: 'Was passiert im Stadium des Grabenbruchs (Rifting)?', options: ['Ein Meer trocknet aus', 'Ein Kontinent zerbricht in zwei Teile', 'Zwei Inseln verschmelzen', 'Ein Vulkan erlischt'], correctAnswer: 1, explanation: 'Beispiel: Ostafrikanischer Grabenbruch (S. 10).', difficulty: 'intermediate' },
       { id: 'wc-5', type: 'multiple-choice', text: 'Was passiert mit dem Mittelmeer laut Zyklus?', options: ['Es wird immer größer', 'Es schließt sich langsam', 'Es friert ein', 'Es wird zum tiefsten Ozean'], correctAnswer: 1, explanation: 'Das Mittelmeer befindet sich im Stadium des Niedergangs (S. 11).', difficulty: 'intermediate' },
       { id: 'wc-tf-2', type: 'true-false', text: 'Gebirge wie der Himalaya entstehen durch die Kollision zweier kontinentaler Platten.', correctAnswer: true, explanation: 'Richtig! Da beide Platten leicht sind, falten sie sich nach oben auf (S. 11).', difficulty: 'beginner' },
-      { id: 'wc-7', type: 'multiple-choice', text: 'Was ist Tethys-Schlamm?', options: ['Dreck am Strand', 'Ehemaliger Ozeanboden, der heute im Gebirge liegt', 'Ein spezieller Vulkantyp'], correctAnswer: 1, explanation: 'Man findet Reste des alten Ozeans Tethys hoch oben im Himalaya (S. 11).', difficulty: 'advanced' }
+      { id: 'wc-7', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop', text: 'Was ist Tethys-Schlamm?', options: ['Dreck am Strand', 'Ehemaliger Ozeanboden, der heute im Gebirge liegt', 'Ein spezieller Vulkantyp'], correctAnswer: 1, explanation: 'Man findet Reste des alten Ozeans Tethys hoch oben im Himalaya (S. 11).', difficulty: 'advanced' },
+      { id: 'wc-8', type: 'multiple-choice', text: 'Wer entwickelte das Modell des Wilson-Zyklus?', options: ['Alfred Wegener', 'Charles Richter', 'John Tuzo Wilson', 'Isaac Newton'], correctAnswer: 2, explanation: 'Der kanadische Geophysiker J. Tuzo Wilson beschrieb die zyklische Entstehung von Ozeanen.', difficulty: 'intermediate' }
     ]
   },
   {
@@ -155,14 +158,14 @@ export const MISSIONS: Mission[] = [
     icon: 'Flame',
     statusRank: 'Vulkanologe',
     questions: [
-      { id: 'v-1', type: 'multiple-choice', text: 'Wie nennt man die Gesteinsschmelze im Erdinneren?', options: ['Lava', 'Magma', 'Asche', 'Bimsstein'], correctAnswer: 1, explanation: 'Innen Magma, aussen Lava (S. 12).', difficulty: 'beginner' },
+      { id: 'v-1', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1518457607834-6e8d80c184c2?q=80&w=800&auto=format&fit=crop', text: 'Wie nennt man die Gesteinsschmelze im Erdinneren?', options: ['Lava', 'Magma', 'Asche', 'Bimsstein'], correctAnswer: 1, explanation: 'Innen Magma, aussen Lava (S. 12).', difficulty: 'beginner' },
       { id: 'v-tf-1', type: 'true-false', text: 'Ein pyroklastischer Strom besteht aus heisser Asche und Gasen.', correctAnswer: true, explanation: 'Diese Ströme sind extrem schnell und gefährlich (S. 12).', difficulty: 'intermediate' },
       { id: 'v-cloze-1', type: 'cloze', text: 'Vulkanausbrüche über {blank} sind besonders explosiv.', options: ['Subduktionszonen', 'Hotspots', 'Grabenbrüchen'], correctAnswer: 'Subduktionszonen', explanation: 'Eingeschlepptes Wasser macht das Magma dort explosiv (S. 12).', difficulty: 'advanced' },
-      { id: 'v-4', type: 'multiple-choice', text: 'Was ist ein Schlot?', options: ['Der Eingang eines Hauses', 'Der Weg des Magmas zur Oberfläche', 'Ein ausgekühlter Stein', 'Ein Luftloch'], correctAnswer: 1, explanation: 'Der Schlot verbindet Magmakammer und Krater (S. 12).', difficulty: 'beginner' },
+      { id: 'v-4', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1462333991480-119d425d6a7d?q=80&w=800&auto=format&fit=crop', text: 'Was ist ein Schlot?', options: ['Der Eingang eines Hauses', 'Der Weg des Magmas zur Oberfläche', 'Ein ausgekühlter Stein', 'Ein Luftloch'], correctAnswer: 1, explanation: 'Der Schlot verbindet Magmakammer und Krater (S. 12).', difficulty: 'beginner' },
       { id: 'v-5', type: 'multiple-choice', text: 'Was sind vulkanische Bomben?', options: ['Echte Sprengstoffpakete', 'Ausgeschleuderte Gesteinsbrocken', 'Gasblasen im Magma', 'Ein spezieller Vulkantyp'], correctAnswer: 1, explanation: 'Das sind im Flug erstarrte Lavabrocken (S. 12).', difficulty: 'intermediate' },
       { id: 'v-tf-2', type: 'true-false', text: 'Ein Schichtvulkan wächst durch abwechselnde Schichten aus Lava und Asche.', correctAnswer: true, explanation: 'Richtig! Daher kommt auch sein Name (Stratovulkan).', difficulty: 'intermediate' },
       { id: 'v-cloze-2', type: 'cloze', text: 'Das Loch an der Spitze eines Vulkans nennt man {blank}.', options: ['Krater', 'Höhle', 'Becken'], correctAnswer: 'Krater', explanation: 'Dort tritt die Lava meist aus (S. 12).', difficulty: 'beginner' },
-      { id: 'v-8', type: 'multiple-choice', text: 'Was ist Lavenregen?', options: ['Wasser, das aus Vulkanen kommt', 'Kleine Lavafetzen, die bei Explosionen herabregnen (Lapilli)', 'Ein gewöhnlicher Regenschauer'], correctAnswer: 1, explanation: 'In der Grafik auf S. 12 sieht man "Lapilli" - kleine Gesteinchen, die vom Himmel fallen.', difficulty: 'intermediate' }
+      { id: 'v-8', type: 'multiple-choice', image: 'https://images.unsplash.com/photo-1541410965313-d53b3c16ef17?q=80&w=800&auto=format&fit=crop', text: 'Was ist Lavenregen?', options: ['Wasser, das aus Vulkanen kommt', 'Kleine Lavafetzen, die bei Explosionen herabregnen (Lapilli)', 'Ein gewöhnlicher Regenschauer'], correctAnswer: 1, explanation: 'In der Grafik auf S. 12 sieht man "Lapilli" - kleine Gesteinchen, die vom Himmel fallen.', difficulty: 'intermediate' }
     ]
   }
 ]; 
@@ -487,20 +490,39 @@ function QuizView({ mission, questionIdx, onAnswer, onBack }: { mission: Mission
   const question = mission.questions[questionIdx];
   const [selected, setSelected] = useState<number | string | boolean | null>(null);
   const [showResult, setShowResult] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+
+  const speak = (text: string) => {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'de-DE';
+    utterance.rate = 1.0;
+    utterance.pitch = 1.1;
+
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+    
+    window.speechSynthesis.speak(utterance);
+  };
 
   const checkAnswer = (val: number | string | boolean) => {
     if (showResult) return;
     setSelected(val);
     setShowResult(true);
     
-    // Evaluate correctness
     const isCorrect = val === question.correctAnswer;
+    
+    if (!isCorrect) {
+      speak(question.explanation);
+    }
     
     setTimeout(() => {
       onAnswer(isCorrect);
       setSelected(null);
       setShowResult(false);
-    }, 2500);
+      window.speechSynthesis.cancel();
+    }, 4500);
   };
 
   const renderClozeText = (text: string) => {
@@ -530,7 +552,7 @@ function QuizView({ mission, questionIdx, onAnswer, onBack }: { mission: Mission
   return (
     <motion.div 
       initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
-      className="p-6 md:p-12 max-w-4xl mx-auto flex flex-col justify-center min-h-screen"
+      className="p-6 md:p-12 max-w-5xl mx-auto flex flex-col justify-center min-h-screen relative"
     >
       <button onClick={onBack} className="flex items-center gap-2 text-stone-500 hover:text-white transition-colors mb-12 uppercase text-xs font-bold tracking-widest">
         <ArrowLeft size={16} /> Abbruch
@@ -558,13 +580,13 @@ function QuizView({ mission, questionIdx, onAnswer, onBack }: { mission: Mission
       <div className="w-full h-1 bg-stone-900 mb-12 rounded-full overflow-hidden">
         <motion.div 
           initial={{ width: 0 }}
-          animate={{ width: `${((questionIdx) / mission.questions.length) * 100}%` }}
+          animate={{ width: `${((questionIdx + 1) / mission.questions.length) * 100}%` }}
           className="h-full bg-[#FF4E00]"
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        <div className="space-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="lg:col-span-7 space-y-8">
           {question.image && (
             <motion.div 
               initial={{ scale: 0.9, opacity: 0 }}
@@ -580,8 +602,7 @@ function QuizView({ mission, questionIdx, onAnswer, onBack }: { mission: Mission
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 self-center">
-          {/* Multiple Choice Render */}
+        <div className="lg:col-span-5 grid grid-cols-1 gap-4 self-center">
           {question.type === 'multiple-choice' && question.options?.map((opt, i) => (
             <button
               key={i}
@@ -602,7 +623,6 @@ function QuizView({ mission, questionIdx, onAnswer, onBack }: { mission: Mission
             </button>
           ))}
 
-          {/* True / False Render */}
           {question.type === 'true-false' && (
             <div className="flex gap-4">
               {[true, false].map((val) => (
@@ -626,7 +646,6 @@ function QuizView({ mission, questionIdx, onAnswer, onBack }: { mission: Mission
             </div>
           )}
 
-          {/* Cloze Options Render */}
           {question.type === 'cloze' && (
             <div className="grid grid-cols-1 gap-4">
               <p className="text-[10px] uppercase font-bold text-stone-500 mb-2">Was passt in die Lücke?</p>
@@ -657,23 +676,51 @@ function QuizView({ mission, questionIdx, onAnswer, onBack }: { mission: Mission
       <AnimatePresence>
         {showResult && (
           <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-12 p-8 rounded-3xl bg-[#1C1B19] border border-stone-800 shadow-xl"
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+            className="mt-12 p-8 rounded-3xl bg-[#1C1B19] border border-stone-800 shadow-2xl flex flex-col md:flex-row gap-8 items-start md:items-center relative overflow-hidden"
           >
-            <div className="flex items-center gap-4 mb-4">
-              <div className={`p-2 rounded-full ${selected === question.correctAnswer ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'}`}>
-                <HelpCircle size={20} />
-              </div>
-              <h4 className="font-bold uppercase tracking-widest text-xs">Erklärung</h4>
+            <div className="flex-shrink-0 relative group">
+              <motion.div 
+                animate={isSpeaking ? { scale: [1, 1.05, 1], rotate: [0, 1, -1, 0] } : {}}
+                transition={{ repeat: Infinity, duration: 0.5 }}
+                className={`w-20 h-20 rounded-full flex items-center justify-center border-2 ${selected === question.correctAnswer ? 'bg-green-500/10 border-green-500/30 text-green-500' : 'bg-red-500/10 border-red-500/30 text-red-500'} transition-all`}
+              >
+                <Bot size={40} />
+              </motion.div>
+              {isSpeaking && (
+                <motion.div 
+                  initial={{ scale: 0 }} animate={{ scale: 1 }}
+                  className="absolute -top-2 -right-2 bg-[#FF4E00] p-1.5 rounded-full shadow-lg"
+                >
+                  <MessageCircle size={14} className="text-white fill-white" />
+                </motion.div>
+              )}
             </div>
-            <p className="text-stone-300 leading-relaxed">{question.explanation}</p>
+
+            <div className="flex-grow space-y-2">
+              <div className="flex items-center gap-3">
+                <h4 className="font-bold uppercase tracking-[0.2em] text-[10px] text-stone-500">GeoBot Nachrichten</h4>
+                {selected === question.correctAnswer ? (
+                  <span className="text-green-500 text-[10px] font-black uppercase tracking-widest px-2 py-0.5 bg-green-500/10 rounded">Exzellent!</span>
+                ) : (
+                  <span className="text-red-500 text-[10px] font-black uppercase tracking-widest px-2 py-0.5 bg-red-500/10 rounded">Lerneffekt!</span>
+                )}
+              </div>
+              <p className="text-stone-300 text-lg leading-relaxed font-medium">
+                {question.explanation}
+              </p>
+            </div>
+            <div className={`absolute top-0 right-0 w-64 h-64 blur-[100px] pointer-events-none -mr-32 -mt-32 opacity-20 transition-all ${selected === question.correctAnswer ? 'bg-green-500' : 'bg-red-500'}`} />
           </motion.div>
         )}
       </AnimatePresence>
     </motion.div>
   );
 }
+
+
 
 function BotOverlay({ chat, onAsk, onClose, isLoading }: { chat: any[], onAsk: (q: string) => void, onClose: () => void, isLoading: boolean }) {
   const [input, setInput] = useState('');
