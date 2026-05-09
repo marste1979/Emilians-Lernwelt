@@ -211,9 +211,9 @@ function StartScreen({ onStart }: { onStart: () => void }) {
         <motion.div 
           animate={{ scale: [1, 1.05, 1], rotate: [0, 1, 0, -1, 0] }}
           transition={{ duration: 4, repeat: Infinity }}
-          className="w-32 h-32 rounded-full bg-[#FF4E00] blur-xl opacity-20 absolute -inset-2"
+          className="w-32 h-32 rounded-full bg-yellow-400 blur-xl opacity-20 absolute -inset-2"
         />
-        <Globe size={100} className="text-[#FF4E00] relative z-10" />
+        <Globe size={100} className="text-yellow-400 relative z-10" />
       </div>
       <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-2 italic">EMILIANS LERNWELT</h1>
       <p className="text-stone-400 max-w-md mb-12 uppercase text-xs tracking-widest font-semibold">
